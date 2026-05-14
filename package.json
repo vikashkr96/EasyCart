@@ -1,0 +1,19 @@
+{
+  "name": "e-commerce-project",
+  "version": "1.0.0",
+  "description": "full stack, E-Commerce Project",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
+  "author": "Vikash Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2",
+    "nodemon": "^3.1.14"
+  }
+}

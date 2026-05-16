@@ -1,158 +1,88 @@
 import mongoose from "mongoose";
 import Product from "../models/productModel.js";
+import HandleError from "../utils/handleError.js";
+import handleAsyncError from "../middleware/handleAsyncError.js";
+
 
 // 1️⃣ Create Product
-export const createProducts = async (req, res) => {
-    try {
+export const createProducts = handleAsyncError(async (req, res, next) => {
 
-        const product = await Product.create(req.body);
+    const product = await Product.create(req.body);
 
-        return res.status(201).json({
-            success: true,
-            product
-        });
+    res.status(201).json({
+        success: true,
+        product
+    });
 
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
+});
 
 
 // 2️⃣ Get All Products
-export const getAllProducts = async (req, res) => {
-    try {
+export const getAllProducts = handleAsyncError(async (req, res, next) => {
 
-        const products = await Product.find();
+    const products = await Product.find();
 
-        return res.status(200).json({
-            success: true,
-            products
-        });
+    res.status(200).json({
+        success: true,
+        products
+    });
 
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
+});
 
 
 // 3️⃣ Update Product
-export const updateProduct = async (req, res) => {
-    try {
+export const updateProduct = handleAsyncError(async (req, res, next) => {
 
-        // Validating ObjectId
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Product ID"
-            });
+    const product = await Product.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+            new: true,
+            runValidators: true
         }
+    );
 
-        const product = await Product.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true,
-                runValidators: true
-            }
-        );
-
-        if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found"
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            product
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    if (!product) {
+        return next(new HandleError("Product Not Found", 404));
     }
-};
+
+    res.status(200).json({
+        success: true,
+        product
+    });
+
+});
 
 
 // 4️⃣ Delete Product
-export const deleteProduct = async (req, res) => {
-    try {
+export const deleteProduct = handleAsyncError(async (req, res, next) => {
 
-        // Validate ObjectId
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Product ID"
-            });
-        }
+    const product = await Product.findByIdAndDelete(req.params.id);
 
-        const product = await Product.findByIdAndDelete(req.params.id);
-
-        if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found"
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Product deleted successfully"
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    if (!product) {
+        return next(new HandleError("Product Not Found", 404));
     }
-};
+
+    res.status(200).json({
+        success: true,
+        message: "Product deleted successfully"
+    });
+
+});
 
 
 // 5️⃣ Get One Product
-export const getOneProduct = async (req, res) => {
-    try {
+export const getOneProduct = handleAsyncError(async (req, res, next) => {
 
-        // Validate ObjectId
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Product ID"
-            });
-        }
+    const product = await Product.findById(req.params.id);
 
-        const product = await Product.findById(req.params.id);
-
-        if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found"
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            product
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    if (!product) {
+        return next(new HandleError("Product Not Found", 404));
     }
-};
+
+    res.status(200).json({
+        success: true,
+        product
+    });
+
+});

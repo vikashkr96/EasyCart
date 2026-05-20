@@ -1,5 +1,10 @@
 import handleAsyncError from '../middleware/handleAsyncError.js'
 import User from "../models/userModel.js";
+import HandleError from '../utils/handleError.js';
+import { sendToken } from '../utils/jwtToken.js';
+
+
+
 export const registerUser = handleAsyncError(async(req, res, next)=>{
     const {name, email, password} = req.body;
 
@@ -13,8 +18,33 @@ export const registerUser = handleAsyncError(async(req, res, next)=>{
         }
     })
 
-    res.status(201).json({
-        success:true,
-        user
-    })
+    sendToken(user, 201, res);
+})
+
+// Login User 
+
+
+export const loginUser = handleAsyncError(async(req, res, next) => {
+
+    const { email, password } = req.body;
+
+    if(!email || !password){
+        return next(new HandleError("Email or Password cannot be empty", 400));
+    }
+
+    const user = await User.findOne({ email }).select("+password");
+
+    if(!user){
+        return next(new HandleError("Invalid Email or Password", 401));
+    }
+
+    // Compare Password
+    const isPasswordMatched = await user.comparePassword(password);
+
+    if(!isPasswordMatched){
+        return next(new HandleError("Invalid Email or Password", 401));
+    }
+
+    sendToken(user, 200, res);
+
 })

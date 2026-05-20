@@ -10,8 +10,17 @@ export default (err, req, res, next) => {
         err = new HandleError(message, 404);
     }
 
+    // duplicate key error
+
+    if(err.code === 11000){
+        const message = `This ${Object.keys(err.keyValue)} is already registerd! Please Login to continue`;
+        err = new HandleError(message, 404);
+    }
+
     res.status(err.statusCode).json({
         success:false,
         message:err.message
     })
+
 }
+

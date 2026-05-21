@@ -2,6 +2,7 @@ import handleAsyncError from "./handleAsyncError.js";
 import jwt from 'jsonwebtoken';
 import User from "../models/userModel.js";
 import handleError from "../utils/handleError.js"
+import HandleError from "../utils/handleError.js";
 
 
 export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
@@ -16,3 +17,11 @@ export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
     next();
 });
 
+export const roleBasedAccess =  (...roles) =>{
+    return(req, res, next) =>{
+        if(!roles.includes(req.user.role)){
+            return next(new HandleError(`Role - ${req.user.role} is not allowed to access the resource`, 403))
+        }
+        next();
+    }
+}

@@ -7,13 +7,16 @@ import HandleError from "../utils/handleError.js";
 
 export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
 
-    const { token } = req.cookies;
+    const token = req.cookies.token;
 
     if (!token) {
-        return next(new handleError("Login First", 401));
+        return next(new HandleError("Login First", 401));
     }
-    const decodedData = jwt.verify(token,process.env.JWT_SECRET_KEY);
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
     req.user = await User.findById(decodedData.id);
+
     next();
 });
 

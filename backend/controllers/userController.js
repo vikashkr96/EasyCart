@@ -1,3 +1,4 @@
+import { equal } from 'assert';
 import handleAsyncError from '../middleware/handleAsyncError.js'
 import User from "../models/userModel.js";
 import HandleError from '../utils/handleError.js';
@@ -24,8 +25,6 @@ export const registerUser = handleAsyncError(async (req, res, next) => {
 })
 
 // Login User 
-
-
 export const loginUser = handleAsyncError(async (req, res, next) => {
 
     const { email, password } = req.body;
@@ -52,7 +51,6 @@ export const loginUser = handleAsyncError(async (req, res, next) => {
 })
 
 // Logout user
-
 export const logout = handleAsyncError(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
@@ -65,7 +63,6 @@ export const logout = handleAsyncError(async (req, res, next) => {
 })
 
 // forgot password
-
 export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
 
     const user = await User.findOne({ email: req.body.email });
@@ -125,7 +122,6 @@ export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
 })
 
 // reset password
-
 export const resetPassword = handleAsyncError(async (req, res, next) => {
 
     const resetPasswordToken = crypto
@@ -157,10 +153,55 @@ export const resetPassword = handleAsyncError(async (req, res, next) => {
 
     user.password = password;
     user.resetPasswordToken = undefined,
-        user.resetPasswordExpire = undefined,
-        await user.save();
+    user.resetPasswordExpire = undefined,
+    await user.save();
     sendToken(user, 200, res);
 
 });
 
+// Get user details
+export const getUserDetails = handleAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
 
+// updating the password
+export const updatePassword = handleAsyncError(async(req, res, next)=>{
+    const {oldPassword, newPassword, confirmPassword} = req.body;
+    const user = await User.findById(req.user.id).select('+password');
+    const checkPasswordMatch = await user.comparePassword(oldPassword);
+
+    if(!checkPasswordMatch){
+        return next(new HandleError('Old password is incorrect', 404));
+    }
+
+    if(newPassword !== confirmPassword){
+        return next(new HandleError("Password doesn't match", 404));
+    }
+    user.password = newPassword;
+    await user.save();
+    sendToken(user, 200, res);
+})
+
+// updating user profile
+export const updateProfile = handleAsyncError(async(req, res, next)=>{
+    const {name, email} = req.body;
+
+    const updateUserDetails = {
+        name,
+        email
+    };
+
+    const user = await User.findByIdAndUpdate(req.user.id, updateUserDetails,{
+        new:true,
+        runValidators:true
+    })
+    res.status(200).json({
+        success:true,
+        message:"Profile Updated Successfully",
+        user
+    })
+})

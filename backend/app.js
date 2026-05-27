@@ -5,6 +5,7 @@ import user from './routes/userRoutes.js';
 import cookieParser from "cookie-parser";
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware
 app.use(express.json());

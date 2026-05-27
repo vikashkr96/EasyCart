@@ -113,3 +113,14 @@ export const getOneProduct = handleAsyncError(async (req, res, next) => {
     });
 
 });
+
+// 6️⃣ Admin - Getting all products
+
+export const getAdminProducts = handleAsyncError(async (req, res, next) => {
+    const products = await Product.find();
+
+    res.status(200).json({
+        success: true,
+        products
+    });
+})

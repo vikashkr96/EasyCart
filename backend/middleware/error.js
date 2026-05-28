@@ -13,7 +13,7 @@ export default (err, req, res, next) => {
     // duplicate key error
 
     if(err.code === 11000){
-        const message = `This ${Object.keys(err.keyValue)} is already registerd! Please Login to continue`;
+        const message = `This ${Object.keys(err.keyValue)} is already registered! Please Login to continue`;
         err = new HandleError(message, 404);
     }
 

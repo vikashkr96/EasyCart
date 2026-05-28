@@ -7,7 +7,7 @@ import { sendEmail } from '../utils/sendEmail.js';
 import crypto from 'crypto';
 
 
-
+// Register user
 export const registerUser = handleAsyncError(async (req, res, next) => {
     const { name, email, password } = req.body;
 
@@ -205,3 +205,81 @@ export const updateProfile = handleAsyncError(async(req, res, next)=>{
         user
     })
 })
+
+// Admin - Getting All User Information
+export const getUsersList = handleAsyncError(async(req, res, next)=>{
+    const users =await User.find();
+    res.status(200).json({
+        success:true,
+        users
+    })
+
+})
+
+// Admin - Getting Single User Information
+export const getSingleUser = handleAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return next(new HandleError("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+
+});
+
+// Admin updating User Role
+export const updateUserRole = handleAsyncError(async (req, res, next) => {
+
+    const { role } = req.body;
+
+    const newUserData = {
+        role
+    };
+
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        newUserData,
+        {
+            returnDocument: "after",
+            runValidators: true
+        }
+    );
+
+    if (!user) {
+        return next(new HandleError("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+
+});
+
+// Admin deleting the User profile
+export const deleteUser = handleAsyncError(async (req, res, next) => {
+
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+        return next(new HandleError("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "User deleted successfully"
+    });
+
+});
+
+
+
+
+
+
+
+

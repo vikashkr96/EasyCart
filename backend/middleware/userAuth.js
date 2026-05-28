@@ -5,6 +5,7 @@ import handleError from "../utils/handleError.js"
 import HandleError from "../utils/handleError.js";
 
 
+// Verifies wheather the user / admin is logged in or not
 export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
 
     const token = req.cookies.token;
@@ -20,6 +21,7 @@ export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
     next();
 });
 
+// Role based access- admin/user
 export const roleBasedAccess =  (...roles) =>{
     return(req, res, next) =>{
         if(!roles.includes(req.user.role)){

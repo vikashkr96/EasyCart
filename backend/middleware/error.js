@@ -1,26 +1,26 @@
 import HandleError from "../utils/handleError.js";
 
 export default (err, req, res, next) => {
+
     err.statusCode = err.statusCode || 500;
     err.message = err.message || "Internal Server Error";
 
-    // cast error
-    if(err.name === 'CastError'){
-        const message = `This is invalid resource ${err.path}`;
-        err = new HandleError(message, 404);
+    // Cast Error
+    if (err.name === "CastError") {
+        const message = `Invalid Resource: ${err.path}`;
+        err = new HandleError(message, 400);
     }
 
-    // duplicate key error
+    // Duplicate Key Error
+    if (err.code === 11000) {
+        const field = Object.keys(err.keyValue)[0];
 
-    if(err.code === 11000){
-        const message = `This ${Object.keys(err.keyValue)} is already registered! Please Login to continue`;
-        err = new HandleError(message, 404);
+        const message = `${field} already exists`;
+        err = new HandleError(message, 400);
     }
 
     res.status(err.statusCode).json({
-        success:false,
-        message:err.message
-    })
-
-}
-
+        success: false,
+        message: err.message
+    });
+};

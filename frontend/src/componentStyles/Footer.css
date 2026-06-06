@@ -1,0 +1,264 @@
+.footer {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 2rem 0;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0 0 0;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+.footer-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* =========================
+   TEXT
+========================= */
+.footer-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* =========================
+   CONTACT
+========================= */
+.contact-link {
+  text-decoration: none;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+  width: fit-content;
+}
+
+.contact-link:hover {
+  color: var(--primary-main);
+}
+
+/* =========================
+   SOCIAL SECTION
+========================= */
+.social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.social-icon {
+  font-size: 1.7rem !important;
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+/* =========================
+   SOCIAL HOVERS
+========================= */
+
+/* GitHub */
+.github:hover .social-icon {
+  color: #171515;
+  transform: translateY(-4px) scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(23, 21, 21, 0.4));
+}
+
+/* LinkedIn */
+.linkedin:hover .social-icon {
+  color: #0A66C2;
+  transform: translateY(-4px) scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(10, 102, 194, 0.5));
+}
+
+/* YouTube */
+.youtube:hover .social-icon {
+  color: #FF0000;
+  transform: translateY(-4px) scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+}
+
+/* Instagram */
+.instagram:hover .social-icon {
+  color: #E1306C;
+  transform: translateY(-4px) scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(225, 48, 108, 0.5));
+}
+
+/* =========================
+   FOOTER BOTTOM
+========================= */
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* =========================
+   TABLET RESPONSIVE
+========================= */
+@media (max-width: 992px) {
+
+  .footer-container {
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .footer-section h3 {
+    font-size: 1.25rem;
+  }
+
+  .footer-section p {
+    font-size: 0.95rem;
+  }
+
+  .social-icon {
+    font-size: 1.6rem !important;
+  }
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+  .footer {
+    padding: 2rem 1rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+    padding: 0;
+  }
+
+  .footer-section {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Contact Section */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact h3 {
+    text-align: center;
+  }
+
+  .contact p {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+  }
+
+  .contact-link {
+    justify-content: center;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  /* Social */
+  .social {
+    gap: 1rem;
+  }
+
+  .social-links {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .social-icon {
+    font-size: 1.5rem !important;
+  }
+
+  /* About */
+  .about p {
+    padding: 0 0.5rem;
+  }
+
+  .footer-bottom {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 480px) {
+
+  .footer-section h3 {
+    font-size: 1.15rem;
+  }
+
+  .footer-section p {
+    font-size: 0.9rem;
+  }
+
+  .contact-link {
+    font-size: 0.88rem;
+  }
+
+  .social-links {
+    gap: 0.8rem;
+  }
+
+  .social-icon {
+    font-size: 1.35rem !important;
+  }
+
+  .footer-bottom {
+    font-size: 0.85rem;
+  }
+}

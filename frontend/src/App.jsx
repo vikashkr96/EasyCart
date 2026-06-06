@@ -1,10 +1,16 @@
 import React from "react";
+import Home from "./pages/Home.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
-    <div>
-      <h1>EasyCart</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
+    
   );
 }
 

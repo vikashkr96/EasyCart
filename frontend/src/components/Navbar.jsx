@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import '../componentStyles/Navbar.css';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function Navbar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const toggleMenu = ()=> setIsMenuOpen(!isMenuOpen);
+    const isAuthenticated = false;
   return (
     <nav className="navbar">
         <div className="navbar-container">
             <div className="navbar-logo">
-                <Link to="/">EasyCart</Link>
+                <Link to="/" onClick={()=>setIsMenuOpen(false)}>EasyCart</Link>
             </div>
-            <div className="navbar-links">
+            <div className={`navbar-links ${isMenuOpen?'active':''}`}>
                 <ul>
-                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/" onClick={()=>setIsMenuOpen(false)}>Home</Link></li>
                     <li><Link to="/products">Products</Link></li>
                     <li><Link to="/about-us">About Us</Link></li>
                     <li><Link to="/contact-us">Contact Us</Link></li>
@@ -22,12 +27,12 @@ function Navbar() {
 
             </div>
             <div className="navbar-icons">
-                <div className="search-container">
+                {/* <div className="search-container">
                     <form className="search-form">
                         <input type="text" className='search-input' placeholder='Search Products'/>
                         <button className="search-icon"><SearchIcon focusable="false"/></button>
                     </form>
-                </div>
+                </div> */}
 
                 <div className="cart-container">
                     <Link to="/cart">
@@ -35,9 +40,12 @@ function Navbar() {
                     <span className="cart-badge">6</span>
                     </Link>
                 </div>
-                <Link to="/register" className="register-link">
+                {!isAuthenticated && <Link to="/register" className="register-link">
                 <PersonAddIcon className='icon'/>
-                </Link>
+                </Link>}
+                <div className="navbar-hamburger" onClick={toggleMenu}>
+                    {isMenuOpen? <CloseIcon className='icon' /> : <MenuIcon className='icon'/>}
+                </div>
             </div>
         </div>
     </nav>

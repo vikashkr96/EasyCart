@@ -5,8 +5,10 @@ import Footer from '../components/Footer.jsx'
 import ImageSlider from '../components/ImageSlider.jsx'
 import Product from '../components/Product.jsx'
 import PageTitle from '../components/PageTitle.jsx'
+import Loader from '../components/Loader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProduct } from '../features/products/productSlice.js'
+import { getProduct, removeErrors } from '../features/products/productSlice.js'
+import { toast } from 'react-toastify'
 
 
 function Home() {
@@ -16,23 +18,40 @@ function Home() {
     useEffect(()=>{
         dispatch(getProduct());
     },[dispatch])
+    useEffect(()=>{
+      if(error){
+        toast.error(error.message, {position:'top-center', autoClose: 3000});
+        dispatch(removeErrors());
+      }
+    },[dispatch, error])
 
   return (
-    <>
-    <PageTitle title="Home - EasyCart" />
-    <Navbar/>
-    <ImageSlider/>
-    <div className="home-container">
-      <h2 className="home-heading">Trending Now</h2>
-      <div className="home-product-container">
-        {products.map((product,index)=>(
-          <Product product={product} key={index}/>
-        ))}
-      </div>
-    </div>
-    <Footer/>
-    </>
-  )
+  <>
+    {loading ? (
+      <Loader />
+    ) : (
+      <>
+        <PageTitle title="Home - EasyCart" />
+  
+        <ImageSlider />
+
+        <div className="home-container">
+          <h2 className="home-heading">Trending Now</h2>
+
+          <div className="home-product-container">
+            {products?.map((product) => (
+              <Product
+                product={product}
+                key={product._id}
+              />
+            ))}
+          </div>
+        </div>
+
+      </>
+    )}
+  </>
+);
 }
 
 export default Home

@@ -1,16 +1,29 @@
 import React from "react";
-import Home from "./pages/Home.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Footer from "./components/Footer.jsx";
+import './pageStyles/Root.css';
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+import Home from "./pages/Home";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <div className="app-layout">
+        <Navbar />
+
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
     </Router>
-    
   );
 }
 

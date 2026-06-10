@@ -17,10 +17,10 @@ function Product({ product }) {
                 <img src={product.images[0].url} alt={product.name} className='product-image-card' />
                 <div className="product-details">
                     <h3 className="product-title">{product.name}</h3>
-                    <p className="product-price"><strong>Price- </strong>{product.price}</p>
-                    <div className="rating-container">
+                    <p className="home-price"><strong>Price- </strong>{product.price}</p>
+                    <div className="rating_container">
                         <Rating
-                            value={product.ratings}
+                            value={product.rating}
                             onRatingChange={handleRatingChange}
                             disabled={true}
                         />

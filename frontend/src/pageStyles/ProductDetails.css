@@ -15,6 +15,15 @@
     margin-bottom: 20px;
     width: 500px;
   }
+
+
+  .MuiRating-iconFilled {
+  color: var(--primary-main) !important;
+}
+
+.MuiRating-iconEmpty {
+  color: var(--text-secondary) !important;
+}
   
 
   .product-detail-image {
@@ -157,12 +166,17 @@
   
 
   .reviews-section {
-    margin-top: 30px;
+    margin-top: 2px;
   }
   
   .review-item {
     padding: 20px 0;
+    margin-left: 20px;
     border-bottom: 1px solid #E7E7E7;
+  }
+
+  .header{
+    margin-left: 10px;
   }
   
   .review-comment,.reviewer-name {
@@ -180,6 +194,11 @@
   
   .out-of-stock {
     color: #B12704;
+  }
+
+  .no-reviews{
+    margin-top: 5px;
+    margin-left: 7px;
   }
   
 

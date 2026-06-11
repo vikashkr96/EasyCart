@@ -40,7 +40,7 @@ function Footer() {
         {/* Social Section */}
         <div className="footer-section social">
 
-          <h3>Follow Me</h3>
+          <h3>Follow Us</h3>
 
           <div className="social-links">
 

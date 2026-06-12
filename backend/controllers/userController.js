@@ -5,24 +5,44 @@ import HandleError from '../utils/handleError.js';
 import { sendToken } from '../utils/jwtToken.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import crypto from 'crypto';
+import {v2 as cloudinary} from 'cloudinary';
 
 
 // Register user
 export const registerUser = handleAsyncError(async (req, res, next) => {
-    const { name, email, password } = req.body;
+
+    const { name, email, password, avatar } = req.body;
+
+    let myCloud = {
+    public_id: "default_avatar",
+    secure_url: "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
+    };
+
+
+    if (avatar && avatar.includes("base64")) {
+
+        myCloud = await cloudinary.uploader.upload(avatar, {
+            folder:"avatars",
+            width:150,
+            crop:"scale"
+        });
+
+    }
+
 
     const user = await User.create({
         name,
         email,
         password,
         avatar: {
-            public_id: "This is temp id",
-            url: "This is a temp url"
+            public_id: myCloud.public_id,
+            url: myCloud.url || myCloud.secure_url
         }
-    })
+    });
+
 
     sendToken(user, 201, res);
-})
+});
 
 // Login User 
 export const loginUser = handleAsyncError(async (req, res, next) => {

@@ -11,6 +11,13 @@ export default (err, req, res, next) => {
         err = new HandleError(message, 400);
     }
 
+    // Mongoose Validation Error - extract readable messages
+    if (err.name === 'ValidationError') {
+        const messages = Object.values(err.errors).map((val) => val.message);
+        const message = messages.join(', ');
+        err = new HandleError(message, 400);
+    }
+
     // Duplicate Key Error
     if (err.code === 11000) {
         const field = Object.keys(err.keyValue)[0];

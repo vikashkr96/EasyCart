@@ -1,8 +1,11 @@
 import React from 'react'
+import '../UserStyles/UserDashboard.css'
 
-function UserDashboard() {
+function UserDashboard({user}) {
   return (
-    <div>UserDashboard</div>
+    <div className="dashboard-container">
+      
+    </div>
   )
 }
 

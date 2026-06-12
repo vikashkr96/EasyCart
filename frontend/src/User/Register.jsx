@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../UserStyles/Form.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, removeErrors, removeSuccess } from '../features/user/userSlice';
+import { toast } from 'react-toastify';
 
 function Register() {
 
@@ -13,6 +16,9 @@ function Register() {
     const [avatar, setAvatar] = useState("");
     const [avatarPreview, setAvatarPreview] = useState("./images/profile.png");
     const {name, email, password} = user; 
+    const {success,loading, error} = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const registerDataChange = (e) => {
         if (e.target.name === 'avatar') {
@@ -44,21 +50,36 @@ function Register() {
             });
             return;
         }
-        const myForm = new FormData();
-        myForm.set('name', name);
-        myForm.set('email', email);
-        myForm.set('password', password);
-        myForm.set('avatar', avatar);
-        console.log(myForm.entries());
-        
+        const myForm = {
+            name,
+            email,
+            password,
+            avatar
+        };
+        dispatch(register(myForm));
     };
+
+    useEffect(()=>{
+          if(error){
+            toast.error(error, {position:'top-center', autoClose: 3000});
+            dispatch(removeErrors());
+          }
+        },[dispatch, error])
+
+    useEffect(()=>{
+          if(success){
+            toast.success('Registration successful', {position:'top-center', autoClose: 3000});
+            dispatch(removeSuccess());
+            navigate('/login');
+          }
+        },[dispatch, success, navigate])
 
 
 
   return (
     <div className="form-container container">
         <div className="form-content">
-            <form className="form" onSubmit={registerSubmit}>
+            <form className="form" onSubmit={registerSubmit} encType='multipart/form-data'>
                 <h2>Sign Up</h2>
                 <div className="input-group">
                     <input type="text" placeholder='Username' name='name'  value={name} onChange={registerDataChange}/>
@@ -73,9 +94,22 @@ function Register() {
                     <input type="file"  name='avatar' className='file-input' accept='image/*' onChange={registerDataChange}/>
                     <img src={avatarPreview} alt="Avatar Preview" className='avatar' />
                 </div>
-                <button type='submit' className="authBtn">Sign Up</button>
+                <button 
+                    type="submit" 
+                    className="authBtn"
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <>
+                            Signing Up
+                            <span className="loader"></span>
+                        </>
+                    ) : (
+                        "Sign Up"
+                    )}
+                </button>
                 <p className="form-links">
-                    Already have an account?<Link to = "/login" >Sign in here</Link>
+                    Already have an account?<Link to = "/login" >Login here</Link>
                 </p>
                 
             </form>

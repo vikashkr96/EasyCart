@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './pageStyles/Root.css';
 
@@ -9,8 +9,22 @@ import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 import Register from "./User/Register";
+import Login from "./User/Login";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./features/user/userSlice";
 
 function App() {
+  const {isAuthenticated, user} = useSelector((state)=>state.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+      if(isAuthenticated){
+          dispatch(loadUser())
+      }
+  },[dispatch])
+  console.log("Authenticated User:", isAuthenticated, user);
+
   return (
     <Router>
       <div className="app-layout">
@@ -23,6 +37,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:keyword" element={<Products />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
 

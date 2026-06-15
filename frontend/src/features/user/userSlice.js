@@ -48,6 +48,16 @@ export const loadUser = createAsyncThunk('user/loadUser', async (_, { rejectWith
     }
 });
 
+// logout functionality 
+export const logout = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.post('/api/v1/logout',{withCredetials:true});
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response.data || 'Log out failed');
+    }
+});
+
 
 
 const userSlice = createSlice({
@@ -129,6 +139,24 @@ const userSlice = createSlice({
                 state.error = action.payload?.message || 'An error occurred while loading the user profile';
                 state.user = null;
                 state.isAuthenticated = false;
+            });
+
+             // Logout user 
+        builder
+            .addCase(logout.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.user =  null;
+                state.isAuthenticated = false;
+                
+            })
+            .addCase(logout.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message || 'Log out failed';
             });
 
 

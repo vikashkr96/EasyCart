@@ -7,7 +7,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import '../pageStyles/Search.css';
-
+import { useSelector } from 'react-redux';            
+import UserDashboard from '../User/UserDashboard.jsx';            
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,7 +16,7 @@ function Navbar() {
     const [searchQuery, setSearchQuery] = useState("");
     const toggleSearch = ()=> setIsSearchOpen(!isSearchOpen);
     const toggleMenu = ()=> setIsMenuOpen(!isMenuOpen);
-    const isAuthenticated = false;
+    const { isAuthenticated, user } = useSelector((state) => state.user);  // ← ADD 3
     const navigate = useNavigate();
     const handleSearchSubmit = (e) => {
         e.preventDefault();
@@ -23,7 +24,6 @@ function Navbar() {
             navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`)
         }else{
             navigate(`/products`);
-            
         }
         setSearchQuery("");
     }
@@ -40,7 +40,6 @@ function Navbar() {
                     <li><Link to="/about-us">About Us</Link></li>
                     <li><Link to="/contact-us">Contact Us</Link></li>
                 </ul>
-
             </div>
             <div className="navbar-icons">
                 <div className="search-container">
@@ -62,9 +61,14 @@ function Navbar() {
                     <span className="cart-badge">6</span>
                     </Link>
                 </div>
-                {!isAuthenticated && <Link to="/register" className="register-link">
-                <PersonAddIcon className='icon'/>
-                </Link>}
+
+                {isAuthenticated && user                   
+                    ? <UserDashboard user={user} />        
+                    : <Link to="/register" className="register-link">
+                        <PersonAddIcon className='icon'/>
+                      </Link>
+                }
+
                 <div className="navbar-hamburger" onClick={toggleMenu}>
                     {isMenuOpen? <CloseIcon className='icon' /> : <MenuIcon className='icon'/>}
                 </div>

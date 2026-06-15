@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Register User API call
+// Register User 
 export const register = createAsyncThunk('user/register', async (userData, { rejectWithValue }) => {
     try {
         const config = {
@@ -21,7 +21,7 @@ export const register = createAsyncThunk('user/register', async (userData, { rej
 }
 });
 
-// Login User API call
+// Login User 
 export const login = createAsyncThunk('user/login', async ({email,password}, { rejectWithValue }) => {
     try {
         const config = {
@@ -39,19 +39,34 @@ export const login = createAsyncThunk('user/login', async ({email,password}, { r
 
 // getting user information .  
 
-export const loadUser = createAsyncThunk('user/loadUser', async (_, { rejectWithValue }) => {
+export const loadUser = createAsyncThunk(
+'user/loadUser',
+async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get('/api/v1/profile');
+
+        const {data} = await axios.get(
+            '/api/v1/profile',
+            {
+                withCredentials:true
+            }
+        );
+
         return data;
-    } catch (error) {
-        return rejectWithValue(error.response.data || 'An error occurred while loading the user profile');
+
+    } catch(error){
+
+        return rejectWithValue(
+            error.response?.data || "Error"
+        );
     }
 });
 
 // logout functionality 
 export const logout = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post('/api/v1/logout',{withCredetials:true});
+        const { data } = await axios.post(
+            '/api/v1/logout',
+            {}, { withCredentials:true }) 
         return data;
     } catch (error) {
         return rejectWithValue(error.response.data || 'Log out failed');
@@ -64,12 +79,13 @@ const userSlice = createSlice({
     name: 'user',
 
     initialState: {
-        user: null,
-        loading: false,
-        error: null,
-        success: false,
-        isAuthenticated: false
-    },
+    user: null,
+    loading: false,
+    error: null,
+    success: false,
+    isAuthenticated: false,
+    isLoadingUser: true
+},
 
     reducers: {
         removeErrors: (state) => {
@@ -124,22 +140,21 @@ const userSlice = createSlice({
         // loading user 
         builder
             .addCase(loadUser.pending, (state) => {
-                state.loading = true;
+                state.isLoadingUser = true;
                 state.error = null;
             })
             .addCase(loadUser.fulfilled, (state, action) => {
-                state.loading = false;
+                state.isLoadingUser = false;
                 state.error = null;
                 state.user = action.payload?.user || null;
                 state.isAuthenticated = Boolean(action.payload?.user);
-                
             })
             .addCase(loadUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload?.message || 'An error occurred while loading the user profile';
+                state.isLoadingUser = false;
+                state.error = action.payload?.message || 'An error occurred';
                 state.user = null;
                 state.isAuthenticated = false;
-            });
+            })
 
              // Logout user 
         builder

@@ -13,17 +13,18 @@ import Login from "./User/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./features/user/userSlice";
 import UserDashboard from './User/UserDashboard';
+import Profile from "./User/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const {isAuthenticated, user} = useSelector((state)=>state.user);
+  const {isAuthenticated, user, isLoadingUser} = useSelector((state)=>state.user);
 
   const dispatch = useDispatch();
 
   useEffect(()=>{
-      if(isAuthenticated){
-          dispatch(loadUser())
-      }
+    dispatch(loadUser());
   },[dispatch])
+
   console.log("Authenticated User:", isAuthenticated, user);
 
   return (
@@ -38,9 +39,10 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:keyword" element={<Products />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />  
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/profile" element={<ProtectedRoute element={<Profile />}/>}  /> 
           </Routes>
-          {isAuthenticated && <UserDashboard user={user}/>}
+          {!isLoadingUser && isAuthenticated && <UserDashboard user={user}/>}
         </main>
 
         <Footer />

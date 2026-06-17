@@ -191,7 +191,9 @@ export const getUserDetails = handleAsyncError(async (req, res, next) => {
 // updating the password
 export const updatePassword = handleAsyncError(async(req, res, next)=>{
     const {oldPassword, newPassword, confirmPassword} = req.body;
+
     const user = await User.findById(req.user.id).select('+password');
+
     const checkPasswordMatch = await user.comparePassword(oldPassword);
 
     if(!checkPasswordMatch){
@@ -201,30 +203,103 @@ export const updatePassword = handleAsyncError(async(req, res, next)=>{
     if(newPassword !== confirmPassword){
         return next(new HandleError("Password doesn't match", 404));
     }
+
+    // CHECK FOR NEW AND CURRENT PASS... NOT TO BE SAME
+    const isSamePassword = await user.comparePassword(newPassword);
+
+    if(isSamePassword){
+        return next(
+            new HandleError("New password cannot be same as old password", 400)
+        );
+    }
+
     user.password = newPassword;
+
     await user.save();
+
     sendToken(user, 200, res);
-})
+});
 
 // updating user profile
-export const updateProfile = handleAsyncError(async(req, res, next)=>{
+export const updateProfile = handleAsyncError(async(req,res,next)=>{
+
     const {name, email} = req.body;
+
+
+    const currentUser = await User.findById(req.user.id);
+
+
+    // prevent update when nothing changed
+    if(
+        currentUser.name === name &&
+        currentUser.email === email &&
+        !req.files?.avatar
+    ){
+        return next(
+            new HandleError("No changes made", 400)
+        );
+    }
+
 
     const updateUserDetails = {
         name,
         email
     };
 
-    const user = await User.findByIdAndUpdate(req.user.id, updateUserDetails,{
-        new:true,
-        runValidators:true
-    })
+
+    if(req.files?.avatar){
+
+
+        // delete old image
+        if(currentUser.avatar?.public_id){
+
+            await cloudinary.uploader.destroy(
+                currentUser.avatar.public_id
+            );
+
+        }
+
+
+        const avatarFile = req.files.avatar;
+
+
+        const myCloud = await cloudinary.uploader.upload(
+            avatarFile.tempFilePath,
+            {
+                folder:"avatars",
+                width:150,
+                crop:"scale"
+            }
+        );
+
+
+        updateUserDetails.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
+        };
+
+    }
+
+
+
+    const updatedUser = await User.findByIdAndUpdate(
+        req.user.id,
+        updateUserDetails,
+        {
+            new:true,
+            runValidators:true
+        }
+    );
+
+
+
     res.status(200).json({
         success:true,
         message:"Profile Updated Successfully",
-        user
-    })
-})
+        user: updatedUser
+    });
+
+});
 
 // Admin - Getting All User Information
 export const getUsersList = handleAsyncError(async(req, res, next)=>{

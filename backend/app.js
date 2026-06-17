@@ -14,7 +14,10 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Middleware
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles:true,
+    tempFileDir:"/tmp/"
+}));
 
 // Routes
 app.use("/api/v1", product);

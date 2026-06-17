@@ -59,20 +59,43 @@ function Register() {
         dispatch(register(myForm));
     };
 
-    useEffect(()=>{
-          if(error){
-            toast.error(error, {position:'top-center', autoClose: 3000});
-            dispatch(removeErrors());
-          }
-        },[dispatch, error])
+    useEffect(() => {
 
-    useEffect(()=>{
-          if(success){
-            toast.success('Registration successful', {position:'top-center', autoClose: 3000});
+        dispatch(removeErrors());
+        
+    }, [dispatch]);
+
+
+    useEffect(() => {
+
+        if(error){
+
+            toast.error(error, {
+                position:'top-center',
+                autoClose:3000
+            });
+
+            dispatch(removeErrors());
+        }
+
+    }, [error, dispatch]);
+
+
+    useEffect(() => {
+
+        if(success){
+
+            toast.success('Registration successful', {
+                position:'top-center',
+                autoClose:3000
+            });
+
             dispatch(removeSuccess());
+
             navigate('/login');
-          }
-        },[dispatch, success, navigate])
+        }
+
+    }, [success, dispatch, navigate]);
 
 
 

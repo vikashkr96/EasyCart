@@ -20,33 +20,50 @@ function Login() {
         dispatch(login({ email: loginEmail, password: loginPassword }));
     }
 
-    useEffect(()=>{
-        if(error){
-            toast.error(error,{
-            position:'top-center',
-            autoClose:3000
-        });
+    useEffect(() => {
+
         dispatch(removeErrors());
-    }
-    },[dispatch,error]);
+
+    }, [dispatch]);
 
 
-    useEffect(()=>{
-        if(isAuthenticated){
-        navigate('/');
+    useEffect(() => {
+
+        if(error){
+
+            toast.error(error,{
+                position:'top-center',
+                autoClose:3000
+            });
+
+            dispatch(removeErrors());
         }
-    },[isAuthenticated,navigate]);
+
+    }, [error, dispatch]);
 
 
-    useEffect(()=>{
+    useEffect(() => {
+
+        if(isAuthenticated){
+            navigate('/');
+        }
+
+    }, [isAuthenticated, navigate]);
+
+
+    useEffect(() => {
+
         if(success){
+
             toast.success('Login successful',{
-            position:'top-center',
-            autoClose:3000
-        });
-        dispatch(removeSuccess());
-    }
-    },[dispatch,success]);
+                position:'top-center',
+                autoClose:3000
+            });
+
+            dispatch(removeSuccess());
+        }
+
+    }, [success, dispatch]);
                 
 
   return (

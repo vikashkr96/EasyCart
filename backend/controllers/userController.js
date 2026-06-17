@@ -112,7 +112,7 @@ export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
         `http://localhost/api/v1/reset/${resetToken}`;
 
     // email message
-    const message = `Your password reset token is:-${resetPasswordURL}
+    const message = `Your password reset link is:-${resetPasswordURL}
     This link will expire in 15 minutes.
     If you have not requested this email, then please ignore it.
 `;

@@ -109,7 +109,7 @@ export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
 
     // reset password url
     const resetPasswordURL =
-        `http://localhost/api/v1/reset/${resetToken}`;
+        `http://localhost:5173/reset/${resetToken}`;
 
     // email message
     const message = `Your password reset link is:-${resetPasswordURL}

@@ -9,12 +9,17 @@ import { useParams } from 'react-router-dom';
 import { getProductDetails, removeErrors } from '../features/products/productSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import { AddItemsToCart, removeMessage } from '../features/cart/cartSlice';
 
 function ProductDetails() {
     const [userRating, setUserRating] = useState(0);
     const [quantity, setQuantity] = useState(1);
 
     const { loading, error, product } = useSelector((state) => state.product);
+    const {loading:cartLoading, error: cartError, success, message, cartItems} = useSelector((state)=>state.cart) 
+    console.log(cartItems);
+    
+
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -38,6 +43,30 @@ function ProductDetails() {
             dispatch(removeErrors());
         }
     }, [dispatch, error]);
+
+
+    useEffect(() => {
+        if (cartError) {
+            toast.error(cartError, {
+                position: 'top-center',
+                autoClose: 3000,
+            });
+        }
+    }, [dispatch, cartError]);
+
+
+
+    useEffect(() => {
+        if (success) {
+            toast.success(message, {
+                position: 'top-center',
+                autoClose: 3000,
+            });
+
+            dispatch(removeMessage());
+        }
+    }, [dispatch, success, message]);
+
 
     if (loading) {
         return <Loader />;
@@ -73,6 +102,10 @@ function ProductDetails() {
             return;
         }
         setQuantity(qty => qty-1);
+    }
+
+    const addToCart = ()=>{
+        dispatch(AddItemsToCart({id,quantity}));
     }
 
     return (
@@ -156,8 +189,21 @@ function ProductDetails() {
                                     </button>
                                 </div>
 
-                                <button onClick={addToCart} className="add-to-cart-btn">
-                                    Add to Cart
+                                <button 
+                                    onClick={addToCart} 
+                                    className="add-to-cart-btn"
+                                    disabled={cartLoading}
+                                >
+                                {
+                                    cartLoading ? (
+                                        <>
+                                            Adding to Cart
+                                            <span className="cart-loader"></span>
+                                        </>
+                                    ) : (
+                                        "Add to Cart"
+                                    )
+                                }
                                 </button>
                             </>
                         )}

@@ -6,12 +6,16 @@ import axios from "axios";
 export const AddItemsToCart = createAsyncThunk('cart/AddItemsToCart', async ({id, quantity}, { rejectWithValue }) => {
     try {
         const {data} = await axios.get(`/api/v1/product/${id}`);
-        console.log('Add items to cart - ', data);
-        
-        return data;
+        return {
+            product: data.product._id,
+            name: data.product.name,
+            price: data.product.price,
+            image: data.product.images[0].url,
+            stock: data.product.stock,
+            quantity
+        }
 
     } catch (error) {
-    console.log("REGISTER ERROR:", error.response);
     return rejectWithValue(
         error.response?.data || "An Error Occurred"
     );
@@ -25,7 +29,7 @@ export const AddItemsToCart = createAsyncThunk('cart/AddItemsToCart', async ({id
 const cartSlice = createSlice({
     name:'cart',
     initialState:{
-        cartItems:[],
+        cartItems:JSON.parse(localStorage.getItem('cartItems')) || [],
         loading:false,
         error:null,
         success:false,
@@ -43,18 +47,33 @@ const cartSlice = createSlice({
         //Add items to cart
         builder
             .addCase(AddItemsToCart.pending, (state)=>{
-                state.loading = true,
+                state.loading = true
                 state.error= null
 
             })
             .addCase(AddItemsToCart.fulfilled, (state, action)=>{
                 const item = action.payload
-                console.log(item);;
+
+                const existingItem = state.cartItems.find((i)=>i.product === item.product)
+                if(existingItem){
+                    existingItem.quantity += item.quantity;
+                    state.message = `${item.name} quantity updated in your cart`;
+                }else{
+                    state.cartItems.push(item);
+                    state.message = `${item.name} has been added to your cart`;
+                }
+
+                state.loading = false
+                state.error= null
+                state.success= true
+
+                localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
                 
             })
-            .addCase(AddItemsToCart.rejected, (state)=>{
-                state.loading = false,
+            .addCase(AddItemsToCart.rejected, (state,action)=>{
+                state.loading = false
                 state.error = action.payload?.message || 'An Error Occurred'
+                state.success = false;
             })
 
 
@@ -62,4 +81,4 @@ const cartSlice = createSlice({
 })
 
 export const {removeError, removeMessage} = cartSlice.actions;
-export default reducer;
+export default cartSlice.reducer;

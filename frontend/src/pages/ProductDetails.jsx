@@ -12,6 +12,7 @@ import Loader from '../components/Loader';
 
 function ProductDetails() {
     const [userRating, setUserRating] = useState(0);
+    const [quantity, setQuantity] = useState(1);
 
     const { loading, error, product } = useSelector((state) => state.product);
     const dispatch = useDispatch();
@@ -51,6 +52,27 @@ function ProductDetails() {
                 </div>
             </>
         );
+    }
+
+    const increaseQuantity = ()=>{
+        if(product.stock <= quantity){
+            toast.error("Can't exceed available stock",
+                {position:'top-center',autoClose:3000}
+            );
+            dispatch(removeErrors());
+            return;
+        }
+        setQuantity(qty => qty+1);
+    }
+    const decreaseQuantity = ()=>{
+        if( quantity <= 1){
+            toast.error("Quantity Can't be less than 1",
+                {position:'top-center',autoClose:3000}
+            );
+            dispatch(removeErrors());
+            return;
+        }
+        setQuantity(qty => qty-1);
     }
 
     return (
@@ -118,23 +140,23 @@ function ProductDetails() {
                                         Quantity :
                                     </span>
 
-                                    <button className="quantity-button">
+                                    <button onClick={decreaseQuantity} className="quantity-button">
                                         -
                                     </button>
 
                                     <input
                                         type="text"
-                                        value={1}
+                                        value={quantity}
                                         className="quantity-value"
                                         readOnly
                                     />
 
-                                    <button className="quantity-button">
+                                    <button onClick={increaseQuantity} className="quantity-button">
                                         +
                                     </button>
                                 </div>
 
-                                <button className="add-to-cart-btn">
+                                <button onClick={addToCart} className="add-to-cart-btn">
                                     Add to Cart
                                 </button>
                             </>

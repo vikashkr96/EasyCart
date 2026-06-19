@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import '../pageStyles/ProductDetails.css';
 import PageTitle from '../components/PageTitle';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import Rating from '@mui/material/Rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProductDetails, removeErrors } from '../features/products/productSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
-import { AddItemsToCart, removeMessage } from '../features/cart/cartSlice';
+import { AddItemsToCart, removeMessage ,removeError} from '../features/cart/cartSlice';
 
 function ProductDetails() {
     const [userRating, setUserRating] = useState(0);
@@ -17,21 +16,23 @@ function ProductDetails() {
 
     const { loading, error, product } = useSelector((state) => state.product);
     const {loading:cartLoading, error: cartError, success, message, cartItems} = useSelector((state)=>state.cart) 
-    console.log(cartItems);
     
 
     const dispatch = useDispatch();
     const { id } = useParams();
 
     useEffect(() => {
-        if (id) {
+
+        if(id){
             dispatch(getProductDetails(id));
         }
 
-        return () => {
+        return ()=>{
             dispatch(removeErrors());
+            dispatch(removeError());
         };
-    }, [dispatch, id]);
+
+},[dispatch,id]);
 
     useEffect(() => {
         if (error) {
@@ -45,14 +46,20 @@ function ProductDetails() {
     }, [dispatch, error]);
 
 
-    useEffect(() => {
-        if (cartError) {
-            toast.error(cartError, {
-                position: 'top-center',
-                autoClose: 3000,
+   useEffect(() => {
+
+        if(cartError){
+
+            toast.error(cartError,{
+                position:'top-center',
+                autoClose:3000
             });
+
+            dispatch(removeError());
+
         }
-    }, [dispatch, cartError]);
+
+    },[cartError,dispatch]);
 
 
 
@@ -84,7 +91,7 @@ function ProductDetails() {
     }
 
     const increaseQuantity = ()=>{
-        if(product.stock <= quantity){
+        if(quantity >= product.stock){
             toast.error("Can't exceed available stock",
                 {position:'top-center',autoClose:3000}
             );
@@ -104,9 +111,10 @@ function ProductDetails() {
         setQuantity(qty => qty-1);
     }
 
-    const addToCart = ()=>{
-        dispatch(AddItemsToCart({id,quantity}));
-    }
+   const addToCart = ()=>{
+    dispatch(AddItemsToCart({id,quantity}));
+    setQuantity(1);
+}
 
     return (
         <>

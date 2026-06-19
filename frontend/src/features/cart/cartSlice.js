@@ -22,12 +22,9 @@ export const AddItemsToCart = createAsyncThunk('cart/AddItemsToCart', async ({id
 }
 });
 
-
-
-
-
 const cartSlice = createSlice({
     name:'cart',
+
     initialState:{
         cartItems:JSON.parse(localStorage.getItem('cartItems')) || [],
         loading:false,
@@ -35,50 +32,139 @@ const cartSlice = createSlice({
         success:false,
         message:null
     },
+
+
     reducers:{
+
         removeError:(state)=>{
-            state.error= null
+            state.error = null;
         },
+
         removeMessage:(state)=>{
-            state.message= null
+            state.message = null;
         },
-    },extraReducers:(builder)=>{
 
-        //Add items to cart
+
+        updateCartQuantity:(state,action)=>{
+
+            const {id, quantity} = action.payload;
+
+            const item = state.cartItems.find(
+                item=>item.product === id
+            );
+
+            if(item){
+                item.quantity = quantity;
+            }
+
+
+            localStorage.setItem(
+                "cartItems",
+                JSON.stringify(state.cartItems)
+            );
+
+        },
+
+
+        removeCartItem:(state,action)=>{
+
+            state.cartItems = state.cartItems.filter(
+                item=>item.product !== action.payload
+            );
+
+
+            localStorage.setItem(
+                "cartItems",
+                JSON.stringify(state.cartItems)
+            );
+
+        }
+
+    },
+
+
+    extraReducers:(builder)=>{
+
         builder
-            .addCase(AddItemsToCart.pending, (state)=>{
-                state.loading = true
-                state.error= null
 
-            })
-            .addCase(AddItemsToCart.fulfilled, (state, action)=>{
-                const item = action.payload
+        .addCase(AddItemsToCart.pending,(state)=>{
 
-                const existingItem = state.cartItems.find((i)=>i.product === item.product)
-                if(existingItem){
-                    existingItem.quantity += item.quantity;
-                    state.message = `${item.name} quantity updated in your cart`;
-                }else{
-                    state.cartItems.push(item);
-                    state.message = `${item.name} has been added to your cart`;
+            state.loading=true;
+            state.error=null;
+
+        })
+
+
+        .addCase(AddItemsToCart.fulfilled,(state,action)=>{
+             state.error = null;
+            const item = action.payload;
+
+
+            const existingItem = state.cartItems.find(
+                i=>i.product === item.product
+            );
+
+
+            if(existingItem){
+
+                if(existingItem.quantity + item.quantity > item.stock){
+
+                    state.error = `Only ${item.stock} items available`;
+                    state.message = null;
+                    state.success = false;
+                    state.loading = false;
+
+                    return;
+
                 }
 
-                state.loading = false
-                state.error= null
-                state.success= true
+                existingItem.quantity += item.quantity;
 
-                localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-                
-            })
-            .addCase(AddItemsToCart.rejected, (state,action)=>{
-                state.loading = false
-                state.error = action.payload?.message || 'An Error Occurred'
-                state.success = false;
-            })
+                state.message = `${item.name} quantity updated in your cart`;
+
+            }
+            else{
+
+                state.cartItems.push(item);
+
+                state.message =
+                `${item.name} has been added to your cart`;
+
+            }
 
 
-    }
+            state.loading=false;
+            state.success=true;
+
+
+            localStorage.setItem(
+                "cartItems",
+                JSON.stringify(state.cartItems)
+            );
+
+        })
+
+
+        .addCase(AddItemsToCart.rejected,(state,action)=>{
+
+            state.loading=false;
+
+            state.error =
+            action.payload?.message || "An Error Occurred";
+
+            state.message = null;
+            state.success=false;
+
 })
 
-export const {removeError, removeMessage} = cartSlice.actions;
+    }
+
+});
+
+export const {
+    removeError,
+    removeMessage,
+    updateCartQuantity,
+    removeCartItem
+} = cartSlice.actions;
 export default cartSlice.reducer;

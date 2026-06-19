@@ -72,21 +72,21 @@ const productSlice = createSlice({
         .addCase(getProduct.rejected, (state,action)=>{
             state.loading = false
             state.error= action.payload || 'Something went wrong';
-            state.products = [];
+            state.products = []
         })
         builder.addCase(getProductDetails.pending,(state)=>{
             state.loading= true,
-            state.error = null;
+            state.error = null
         })
         .addCase(getProductDetails.fulfilled,(state, action)=>{
-            console.log('Product Details ', action.payload);
-            state.loading = false;
-            state.error = null;
+            console.log('Product Details ', action.payload)
+            state.loading = false
+            state.error = null
             state.product = action.payload.product;
         })
         .addCase(getProductDetails.rejected, (state,action)=>{
             state.loading = false
-            state.error= action.payload || 'Something went wrong';
+            state.error= action.payload || 'Something went wrong'
         })
     }
 });

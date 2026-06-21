@@ -62,7 +62,7 @@ function Cart() {
             </div>
 
             <div className="summary-item">
-                <p className="summary-label">- Discount (if any)</p>
+                <p className="summary-label">- Discount {subTotal > 2000?"(10%)":"(if any)"}</p>
                 <p className="summary-value">{discount}</p>
             </div>
 

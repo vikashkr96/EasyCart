@@ -60,7 +60,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentInfo:{
         id:{
-            type:Number,
+            type:String,
             required:true
         },
         status:{
@@ -88,6 +88,11 @@ const orderSchema = new mongoose.Schema({
         default:0
     },
     totalPrice:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    discount:{
         type:Number,
         required:true,
         default:0

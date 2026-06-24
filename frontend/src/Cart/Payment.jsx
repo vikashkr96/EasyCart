@@ -9,7 +9,8 @@ import { toast } from 'react-toastify'
 
 function Payment() {
 
-  const orderItem = JSON.parse(sessionStorage.getItem('orderItem'));
+  const orderItem = JSON.parse(sessionStorage.getItem('orderItem' || "{}"));
+  console.log("PAYMENT PAGE:", sessionStorage.getItem("orderItem"));
   const { user } = useSelector(state => state.user);
   const { shippingInfo } = useSelector(state => state.cart);
   const navigate = useNavigate();
@@ -82,10 +83,11 @@ function Payment() {
         </Link>
 
         <button 
-          className="payment-btn" 
+          className="payment-btn"
+          disabled={!orderItem.total}
           onClick={() => completePayment(orderItem.total)}
         >
-          Pay {orderItem.total} /-
+          Pay {orderItem.total || 0} /-
         </button>
       </div>
     </>

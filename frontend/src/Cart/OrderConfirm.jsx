@@ -1,4 +1,4 @@
-import React, { use } from 'react'
+import React from 'react'
 import '../CartStyles/OrderConfirm.css'
 import PageTitle from '../components/PageTitle'
 import { useSelector } from 'react-redux'
@@ -24,6 +24,9 @@ function OrderConfirm() {
             total
         }
         sessionStorage.setItem('orderItem',JSON.stringify(data));
+        console.log(
+            "Saved:",JSON.parse(sessionStorage.getItem('orderItem')));
+        sessionStorage.removeItem("orderCreated");
         navigate('/process/payment')
     }
     
@@ -94,7 +97,7 @@ function OrderConfirm() {
                         <td>{subTotal}</td>
                         <td>{shipping}</td>
                         <td>{tax}</td>
-                        <td>{discount}</td>
+                        <td>{discount.toFixed(2)}</td>
                         <td>{total}</td>
                     </tr>
                 </tbody>

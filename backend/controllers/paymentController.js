@@ -3,11 +3,23 @@ import {instance} from '../server.js';
 import crypto from 'crypto';
 
 export const processPayment = handleAsyncError(async(req, res)=>{
+
+    console.log("BODY:", req.body);
+
+    const amountInPaise = Math.round(Number(req.body.amount) * 100);
+
+    console.log("RUPEES:", req.body.amount);
+    console.log("PAISE:", amountInPaise);
+
     const options = {
-        amount:Number(req.body.amount*100),
+        amount: amountInPaise,
         currency:'INR'
     }
+
+    console.log("OPTIONS:", options);
+
     const order = await instance.orders.create(options)
+
     res.status(200).json({
         success:true,
         order

@@ -15,7 +15,8 @@ export const createNewOrder = handleAsyncError(async(req, res, next)=>{
         itemPrice,
         taxPrice,
         shippingPrice,
-        totalPrice
+        totalPrice,
+        discount
     } = req.body;
 
     const order = await Order.create({
@@ -26,6 +27,7 @@ export const createNewOrder = handleAsyncError(async(req, res, next)=>{
         taxPrice, 
         shippingPrice, 
         totalPrice,
+        discount,
         paidAt: Date.now(),
         user: req.user._id
     });
@@ -51,7 +53,7 @@ export const getSingleOrder = handleAsyncError(async(req, res, next)=>{
     })
 });
 
-// getting logged-in/ individual orders
+// getting logged-in/ all individual orders
 export const AllMyOrders = handleAsyncError(async(req, res, next)=>{
     const orders = await Order.find({user:req.user._id});
 

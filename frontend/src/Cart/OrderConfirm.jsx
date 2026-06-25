@@ -8,26 +8,32 @@ import { useNavigate } from 'react-router-dom'
 function OrderConfirm() {
     const {shippingInfo, cartItems} = useSelector(state=>state.cart)
     const {user} = useSelector(state=>state.user)
-    const subTotal = cartItems.reduce((acc, item)=> acc+item.price*item.quantity, 0);
-    const tax = subTotal*0.18 ;
+    const subTotal = cartItems.reduce((acc,item)=> acc + item.price * item.quantity,0);
+    const tax = Number((subTotal * 0.18).toFixed(2));
     const shipping = subTotal > 500 ? 0 : 50;
-    const discount = subTotal < 2000 ? 0 : subTotal*0.10; 
-    const total = subTotal + shipping + tax - discount;
+    const discount = Number((subTotal < 2000 ? 0 : subTotal * 0.10).toFixed(2));
+    const total = Number((subTotal + shipping + tax - discount).toFixed(2));
     const navigate = useNavigate()
 
     const proceedToPayment = ()=>{
-        const data = {
-            subTotal,
-            tax,
-            shipping,
-            discount,
-            total
-        }
-        sessionStorage.setItem('orderItem',JSON.stringify(data));
-        console.log(
-            "Saved:",JSON.parse(sessionStorage.getItem('orderItem')));
-        sessionStorage.removeItem("orderCreated");
-        navigate('/process/payment')
+
+    const data = {
+        shippingInfo:{
+            ...shippingInfo,
+            phoneNo: shippingInfo.phoneNumber
+        },
+        orderItems: cartItems,
+        itemPrice: subTotal,
+        taxPrice: tax,
+        shippingPrice: shipping,
+        discount,
+        totalPrice: total
+    }
+    sessionStorage.setItem(
+        "orderItem",
+        JSON.stringify(data)
+    );
+    navigate('/process/payment');
     }
     
   return (
@@ -94,11 +100,11 @@ function OrderConfirm() {
 
                 <tbody>
                     <tr>
-                        <td>{subTotal}</td>
-                        <td>{shipping}</td>
-                        <td>{tax}</td>
+                        <td>{subTotal.toFixed(2)}</td>
+                        <td>{shipping.toFixed(2)}</td>
+                        <td>{tax.toFixed(2)}</td>
                         <td>{discount.toFixed(2)}</td>
-                        <td>{total}</td>
+                        <td>{total.toFixed(2)}</td>
                     </tr>
                 </tbody>
 

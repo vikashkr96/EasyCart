@@ -21,6 +21,18 @@ export const createOrder = createAsyncThunk('order/createOrder', async(order,{re
     }
 })
 
+// Get user order 
+export const getAllMyOrders = createAsyncThunk('order/getAllMyOrders', async(_,{rejectWithValue})=>{
+    try{
+        const {data} = await axios.get('/api/v1/orders/user')
+        return data;
+    }catch(error){
+        return rejectWithValue(
+        error.response?.data || "An error occurred while fetching your orders"
+    );
+    }
+})
+
 
 const orderSlice = createSlice({
     name:'order',
@@ -41,13 +53,14 @@ const orderSlice = createSlice({
         }
     },
     extraReducers:(builder)=>{
+        // create order
         builder
         .addCase(createOrder.pending,(state)=>{
             state.loading = true;
             state.error = null;
         })
         .addCase(createOrder.fulfilled,(state,action)=>{
-            loading:false
+            state.loading = false
             state.order = action.payload.order
             state.success = action.payload.success
 
@@ -55,8 +68,27 @@ const orderSlice = createSlice({
         .addCase(createOrder.rejected,(state,action)=>{
                 state.loading = false;
                 state.error = action.payload?.message || 'An error occurred while creating your order';           
+        }),
+
+
+        // Get user order 
+        builder
+        .addCase(getAllMyOrders.pending,(state)=>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getAllMyOrders.fulfilled,(state,action)=>{
+            state.loading = false
+            state.orders = action.payload.orders
+            state.success = action.payload.success
+
+        })
+        .addCase(getAllMyOrders.rejected,(state,action)=>{
+                state.loading = false;
+                state.error = action.payload?.message || 'An error occurred while fetching your orders';           
         })
     }
+
 })
 export const {removeErrors, removeSuccess} = orderSlice.actions;
 export default orderSlice.reducer;

@@ -15,6 +15,7 @@ function PaymentSuccess() {
     const {loading, success, error } = useSelector(state=>state.order)
     const dispatch = useDispatch();
     const orderCreated = useRef(false);
+    const toastShown = useRef(false);
 
 
     useEffect(() => {
@@ -24,12 +25,14 @@ function PaymentSuccess() {
 
 
     useEffect(()=>{
-        if(orderCreated.current) return;
-        const alreadyCreated = sessionStorage.getItem("orderCreated");
-        if(alreadyCreated){
-            return;
-        }
-        orderCreated.current = true;
+
+    if(orderCreated.current) return;
+    const storedOrder = sessionStorage.getItem("orderItem");
+    if(!storedOrder){
+        return;
+    }
+    orderCreated.current = true;
+    
         const createOrderData = async()=>{
             try{
                 const storedOrderItem = sessionStorage.getItem('orderItem');
@@ -40,9 +43,10 @@ function PaymentSuccess() {
                         city:shippingInfo.city,
                         state:shippingInfo.state,
                         country:shippingInfo.country,
-                        pinCode:shippingInfo.pinCode,
-                        phoneNo:shippingInfo.phoneNumber,
+                        pinCode:Number(shippingInfo.pinCode),
+                        phoneNo:Number(shippingInfo.phoneNumber),
                     },
+
                     orderItems:cartItems.map((item)=>({
                         name:item.name,
                         price:item.price,
@@ -50,15 +54,17 @@ function PaymentSuccess() {
                         image:item.image,
                         product:item.product
                     })),
+
                     paymentInfo:{
                         id:reference,
-                        status:'succeeded'
+                        status:"Paid"
                     },
-                    itemPrice: orderItem?.subTotal || 0,
-                    taxPrice: orderItem?.tax || 0,
-                    shippingPrice: orderItem?.shipping || 0,
-                    totalPrice: orderItem?.total || 0,
-                    discount: orderItem?.discount || 0
+
+                    itemPrice:orderItem.itemPrice,
+                    taxPrice:orderItem.taxPrice,
+                    shippingPrice:orderItem.shippingPrice,
+                    totalPrice:orderItem.totalPrice,
+                    discount:orderItem.discount
                 }
 
                 console.log("sending data: ",orderData);
@@ -75,22 +81,28 @@ function PaymentSuccess() {
         createOrderData()
     },[dispatch, reference])
 
-    useEffect(()=>{
-        if(success){
-            toast.success('Order Placed',{position:'top-center', autoClose:3000})
-             sessionStorage.removeItem('orderItem');
-             sessionStorage.removeItem('shippingInfo');
-             dispatch(clearCart());
-            dispatch(removeSuccess());
-        }
-    },[dispatch, success])
+    
+    
 
     useEffect(()=>{
-        if(error){
-            toast.error(error,{position:'top-center', autoClose:3000})
-            dispatch(removeErrors());
+        if(success && !toastShown.current){
+
+            toastShown.current = true;
+
+            toast.success('Order Placed',{
+                position:'top-center',
+                autoClose:3000
+            });
+
+            sessionStorage.removeItem('orderItem');
+            sessionStorage.removeItem('shippingInfo');
+            sessionStorage.removeItem('orderCreated');
+
+            dispatch(clearCart());
+            dispatch(removeSuccess());
         }
-    },[dispatch, error])
+
+    },[dispatch, success])
 
 
     return (

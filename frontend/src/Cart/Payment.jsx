@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 
 function Payment() {
 
-  const orderItem = JSON.parse(sessionStorage.getItem('orderItem' || "{}"));
+  const orderItem = JSON.parse(sessionStorage.getItem("orderItem") || "{}");
   console.log("PAYMENT PAGE:", sessionStorage.getItem("orderItem"));
   const { user } = useSelector(state => state.user);
   const { shippingInfo } = useSelector(state => state.cart);
@@ -17,6 +17,7 @@ function Payment() {
 
   const completePayment = async (amount) => {
     try{
+      console.log("PAYMENT AMOUNT:", amount);
       const { data: keyData } = await axios.get('/api/v1/getKey');
       const { key } = keyData;
 
@@ -44,6 +45,9 @@ function Payment() {
           )
           if(data.success){
             navigate(`/paymentSuccess?reference=${data.reference}`);
+
+
+
           }else{
             alert('Payment verification failed')
           }
@@ -63,10 +67,18 @@ function Payment() {
       rzp.open();
 
   }catch(error){
-    toast.error(error.message, {position:'top-center', autoClose: 3000});
-  }
 
+    console.log("PAYMENT ERROR:", error.response?.data);
+
+    toast.error(
+        error.response?.data?.message || error.message,
+        {
+            position:'top-center',
+            autoClose:3000
+        }
+    );
 }
+  }
 
 
   return (
@@ -84,10 +96,10 @@ function Payment() {
 
         <button 
           className="payment-btn"
-          disabled={!orderItem.total}
-          onClick={() => completePayment(orderItem.total)}
-        >
-          Pay {orderItem.total || 0} /-
+          disabled={!orderItem?.totalPrice}
+          onClick={() => completePayment(orderItem?.totalPrice)}
+      >
+          Pay {orderItem?.totalPrice || 0} /-
         </button>
       </div>
     </>

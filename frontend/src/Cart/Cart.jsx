@@ -51,25 +51,25 @@ function Cart() {
             <h3 className="price-summary-heading">Price Summary</h3>
             <div className="summary-item">
                 <p className="summary-label">Subtotal</p>
-                <p className="summary-value">{subTotal}</p>
+                <p className="summary-value">{subTotal.toFixed(2)}</p>
             </div>
             <div className="summary-item">
                 <p className="summary-label">+ 18% GST</p>
-                <p className="summary-value">{tax}</p>
+                <p className="summary-value">{tax.toFixed(2)}</p>
             </div>
             <div className="summary-item">
                 <p className="summary-label">+ Shipping</p>
-                <p className="summary-value">{shipping}</p>
+                <p className="summary-value">{shipping.toFixed(2)}</p>
             </div>
 
             <div className="summary-item">
                 <p className="summary-label">- Discount {subTotal > 2000?"(10%)":"(if any)"}</p>
-                <p className="summary-value">{discount}</p>
+                <p className="summary-value">{discount.toFixed(2)}</p>
             </div>
 
             <div className="summary-total">
                 <p className="summary-label">Total</p>
-                <p className="summary-value">{total}</p>
+                <p className="summary-value">{total.toFixed(2)}</p>
             </div>
             <button onClick={checkoutHandler} className="checkout-btn">Proceed to Checkout</button>
         </div>

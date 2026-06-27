@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import './pageStyles/Root.css';
 
 import Navbar from "./components/Navbar";
@@ -26,49 +26,65 @@ import Payment from "./Cart/Payment";
 import PaymentSuccess from "./Cart/PaymentSuccess";
 import MyOrders from "./Orders/MyOrders";
 import OrderDetails from "./Orders/OrderDetails";
+import Dashboard from "./Admin/Dashboard";
 
-function App() {
-  const {isAuthenticated, user, isLoadingUser} = useSelector((state)=>state.user);
-
+// Small wrapper so we can use useLocation() inside the Router
+function AppContent() {
+  const { isAuthenticated, user, isLoadingUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const location = useLocation();
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(loadUser());
-  },[dispatch])
+  }, [dispatch]);
 
   console.log("Authenticated User:", isAuthenticated, user);
 
+  // true for any /admin/... route
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <div className="app-layout">
+      <Navbar />
+
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:keyword" element={<Products />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+          <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile />} />} />
+          <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword />} />} />
+          <Route path="/password/forgot" element={<ForgotPassword />} />
+          <Route path="/reset/:token" element={<ResetPassword />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/shipping" element={<ProtectedRoute element={<Shipping />} />} />
+          <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm />} />} />
+          <Route path="/process/payment" element={<ProtectedRoute element={<Payment />} />} />
+          <Route path="/paymentSuccess" element={<ProtectedRoute element={<PaymentSuccess />} />} />
+          <Route path="/orders/user" element={<ProtectedRoute element={<MyOrders />} />} />
+          <Route path="/order/:orderId" element={<ProtectedRoute element={<OrderDetails />} />} />
+
+          {/* admin routes  */}
+
+          <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly={true} />} />
+
+        </Routes>
+        {!isLoadingUser && isAuthenticated && !isAdminRoute && <UserDashboard user={user} />}
+      </main>
+
+      {!isAdminRoute && <Footer />}
+    </div>
+  );
+}
+
+function App() {
   return (
     <Router>
-      <div className="app-layout">
-        <Navbar />
-
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:keyword" element={<Products />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} /> 
-            <Route path="/profile" element={<ProtectedRoute element={<Profile />}/>}  /> 
-            <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile />}/>}  /> 
-            <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword />}/>}  /> 
-            <Route path="/password/forgot" element={<ForgotPassword />} />
-            <Route path="/reset/:token" element={<ResetPassword />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/shipping" element={<ProtectedRoute element={<Shipping />}/>}  /> 
-            <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm />}/>}  /> 
-            <Route path="/process/payment" element={<ProtectedRoute element={<Payment />}/>}  /> 
-            <Route path="/paymentSuccess" element={<ProtectedRoute element={<PaymentSuccess />}/>}  /> 
-            <Route path="/orders/user" element={<ProtectedRoute element={<MyOrders />}/>}  /> 
-            <Route path="/order/:orderId" element={<ProtectedRoute element={<OrderDetails />}/>}  /> 
-          </Routes>
-          {!isLoadingUser && isAuthenticated && <UserDashboard user={user}/>}
-        </main>
-
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
   );
 }

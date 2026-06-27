@@ -120,11 +120,39 @@
     cursor: pointer;
     margin: 20px 0;
     color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
   
-  .add-to-cart-btn:hover {
-    background: var(--bg-secondary);
-  }
+
+.loader {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.add-to-cart-btn:hover:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+  
+  button:hover:not(:disabled) {
+    background:var(--bg-secondary);
+    color:var(--text-primary);
+}
   
 
   .reviews-container {

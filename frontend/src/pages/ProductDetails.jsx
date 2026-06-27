@@ -5,18 +5,18 @@ import Navbar from '../components/Navbar';
 import Rating from '@mui/material/Rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getProductDetails, removeErrors } from '../features/products/productSlice';
+import { createReview, getProductDetails, removeErrors, removeSuccess } from '../features/products/productSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { AddItemsToCart, removeMessage ,removeError} from '../features/cart/cartSlice';
 
 function ProductDetails() {
     const [userRating, setUserRating] = useState(0);
+    const [comment, setComment] = useState("");
     const [quantity, setQuantity] = useState(1);
 
-    const { loading, error, product } = useSelector((state) => state.product);
+    const { loading, error, product, reviewSuccess, reviewLoading} = useSelector((state) => state.product);
     const {loading:cartLoading, error: cartError, success, message, cartItems} = useSelector((state)=>state.cart) 
-    
 
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -32,7 +32,7 @@ function ProductDetails() {
             dispatch(removeError());
         };
 
-},[dispatch,id]);
+    },[dispatch,id]);
 
     useEffect(() => {
         if (error) {
@@ -45,8 +45,7 @@ function ProductDetails() {
         }
     }, [dispatch, error]);
 
-
-   useEffect(() => {
+    useEffect(() => {
 
         if(cartError){
 
@@ -74,22 +73,6 @@ function ProductDetails() {
         }
     }, [dispatch, success, message]);
 
-
-    if (loading) {
-        return <Loader />;
-    }
-
-    if (error || !product) {
-        return (
-            <>
-                <PageTitle title="Product Details" />
-                <div className="error-container">
-                    Product not found
-                </div>
-            </>
-        );
-    }
-
     const increaseQuantity = ()=>{
         if(quantity >= product.stock){
             toast.error("Can't exceed available stock",
@@ -111,10 +94,49 @@ function ProductDetails() {
         setQuantity(qty => qty-1);
     }
 
-   const addToCart = ()=>{
+    const addToCart = ()=>{
     dispatch(AddItemsToCart({id,quantity}));
     setQuantity(1);
-}
+    }
+
+    const handleReviewSubmit = (e) =>{
+        e.preventDefault();
+        if(!userRating){
+            toast.error('Please select a rating', {position: 'top-center',autoClose: 3000,});
+            return;
+        }
+        dispatch(createReview({
+            rating:userRating,
+            comment,
+            productId:id
+        }));
+    }
+
+    useEffect(()=>{
+        if(reviewSuccess){
+            toast.success('Review submitted successfully', {position: 'top-center',autoClose: 3000,});
+            setUserRating(0);
+            setComment("")
+            dispatch(removeSuccess())
+            dispatch(getProductDetails(id))
+        }
+    },[reviewSuccess, id, dispatch])
+
+        if (loading) {
+        return <Loader />;
+    }
+
+    if (error || !product) {
+        return (
+            <>
+                <PageTitle title="Product Details" />
+                <div className="error-container">
+                    Product not found
+                </div>
+            </>
+        );
+    }
+
 
     return (
         <>
@@ -216,26 +238,36 @@ function ProductDetails() {
                             </>
                         )}
 
-                        <form className="review-form">
+                        <form className="review-form" onSubmit={handleReviewSubmit}>
                             <h3>Write a Review</h3>
 
                             <Rating
                                 value={userRating}
                                 onChange={(event, newValue) => {
-                                    setUserRating(newValue);
+                                setUserRating(newValue);
                                 }}
                             />
 
                             <textarea
                                 placeholder="Write your review here..."
                                 className="review-input"
+                                value={comment}
+                                onChange={(e)=>setComment(e.target.value)}
+                                required
                             ></textarea>
-
-                            <button
-                                type="submit"
+                            <button 
+                                type="submit" 
                                 className="submit-review-btn"
-                            >
-                                Submit Review
+                                disabled={reviewLoading}
+                                >
+                                {reviewLoading ? (
+                                    <>
+                                        Please wait..
+                                        <span className="loader"></span>
+                                    </>
+                                ) : (
+                                    "Submit Review"
+                                )}
                             </button>
                         </form>
                     </div>

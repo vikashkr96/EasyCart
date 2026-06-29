@@ -7,7 +7,6 @@ import HandleError from "../utils/handleError.js";
 
 // Verifies whether the user / admin is logged in or not
 export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
-
     const token = req.cookies.token;
 
     if (!token) {

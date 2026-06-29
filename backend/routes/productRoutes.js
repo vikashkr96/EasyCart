@@ -1,6 +1,7 @@
 import express from "express";
 import {getAllProducts, createProducts, updateProduct, deleteProduct, getOneProduct, getAdminProducts, createAndUpdateProductReview, getProductReviews, deleteReviews} from "../controllers/productController.js";
 import { roleBasedAccess, verifyUserAuth } from "../middleware/userAuth.js";
+import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router.route("/products")
 router.route("/admin/products")
     .get(verifyUserAuth, roleBasedAccess("admin"), getAdminProducts);
     
-router.route("/admin/product/create").post(verifyUserAuth, roleBasedAccess("admin"),createProducts);
+router.route("/admin/product/create").post(verifyUserAuth,roleBasedAccess("admin"),upload.array("image",10), createProducts);
 
 router.route("/admin/product/:id")
     .put(verifyUserAuth, roleBasedAccess("admin"),updateProduct)

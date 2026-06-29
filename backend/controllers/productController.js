@@ -4,15 +4,38 @@ import HandleError from "../utils/handleError.js";
 import handleAsyncError from "../middleware/handleAsyncError.js";
 import APIFunctionality from "../utils/apiFunctionality.js";
 import { getLogger } from "nodemailer/lib/shared/index.js";
+import {v2 as cloudinary} from 'cloudinary'
+import fs from "fs";
 
 
 // 1️⃣ Create Product
 export const createProducts = handleAsyncError(async (req, res, next) => {
-    req.body.user = req.user.id;
-    const product = await Product.create(req.body);
+    const imageLinks = [];
 
+    if(req.files && req.files.length > 0){
+
+        for(let i = 0; i < req.files.length; i++){
+            const filePath = req.files[i].path;
+            const result = await cloudinary.uploader.upload(
+                req.files[i].path,
+                {
+                    folder:"products"
+                }
+            );
+            // delete local file after cloudinary upload
+            fs.unlinkSync(filePath);
+            imageLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            });
+        }
+    }
+    req.body.images = imageLinks;
+    req.body.user = req.user.id;
+
+    const product = await Product.create(req.body);
     res.status(201).json({
-        success: true,
+        success:true,
         product
     });
 

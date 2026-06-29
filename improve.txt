@@ -1,0 +1,21 @@
+1. app.js line 20  im using two file upload memory , currently commented one of them which if not commented cause ab issue or conflict  so add the commented in its respective route i e: for profile image i think ,,
+
+2. in products section why product not listen category wise despite og selecting same categories while creating project (admin) 
+
+3. Server is running at port: 8000
+MongoDB connected with server localhost
+ERROR MIDDLEWARE: HandleError: This page doesn't exist
+    at file:///C:/Users/amitk/OneDrive/Desktop/E-COMMERCE%20PROJECT/backend/controllers/productController.js:60:21
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  statusCode: 404
+}
+ERROR MIDDLEWARE: HandleError: This page doesn't exist
+    at file:///C:/Users/amitk/OneDrive/Desktop/E-COMMERCE%20PROJECT/backend/controllers/productController.js:60:21
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  statusCode: 404
+}
+ERROR MIDDLEWARE: HandleError: This page doesn't exist
+    at file:///C:/Users/amitk/OneDrive/Desktop/E-COMMERCE%20PROJECT/backend/controllers/productController.js:60:21
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  statusCode: 404
+}   this was the last output on backend terminal why ??

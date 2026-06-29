@@ -121,7 +121,7 @@ textarea.form-input {
 .submit-btn {
     width: 100%;
     padding: 13px;
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -138,7 +138,7 @@ textarea.form-input {
 
 
 .submit-btn:hover {
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
 }
 
 

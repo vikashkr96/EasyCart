@@ -11,6 +11,16 @@ export const fetchAdminProducts = createAsyncThunk('admin/fetchAdminProducts', a
     }
 });
 
+// create products ..
+export const createProduct = createAsyncThunk('admin/createProduct', async ( productData,{ rejectWithValue }) => {
+    try {
+        const {data} = await axios.post('/api/v1/admin/product/create',productData);
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Product Creation Failed!");
+    }
+});
+
 
 const adminSlice = createSlice({
     name:'admin',
@@ -41,6 +51,22 @@ const adminSlice = createSlice({
             .addCase(fetchAdminProducts.rejected,(state,action)=>{
                 state.loading = false;
                 state.error  = action.payload?.message || 'Error While Fetching the Products'
+            })
+        builder
+            .addCase(createProduct.pending,(state)=>{
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createProduct.fulfilled,(state,action)=>{
+                state.loading = false;
+                state.success = action.payload.success;
+                state.products.push(action.payload.product);
+                console.log([...state.products]);
+                
+            })
+            .addCase(createProduct.rejected,(state,action)=>{
+                state.loading = false;
+                state.error  = action.payload?.message || '"Product Creation Failed!"'
             })
     }
 })

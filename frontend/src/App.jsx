@@ -74,7 +74,7 @@ function AppContent() {
 
           <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly={true} />} />
           <Route path="/admin/products" element={<ProtectedRoute element={<ProductsList />} adminOnly={true} />} />
-          <Route path="/admin/products/create" element={<ProtectedRoute element={<CreateProducts />} adminOnly={true} />} />
+          <Route path="/admin/product/create" element={<ProtectedRoute element={<CreateProducts />} adminOnly={true} />} />
 
         </Routes>
         {!isLoadingUser && isAuthenticated && !isAdminRoute && <UserDashboard user={user} />}

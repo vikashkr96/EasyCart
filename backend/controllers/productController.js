@@ -23,7 +23,9 @@ export const createProducts = handleAsyncError(async (req, res, next) => {
                 }
             );
             // delete local file after cloudinary upload
-            fs.unlinkSync(filePath);
+            if(fs.existsSync(filePath)){
+                fs.unlinkSync(filePath);
+            }
             imageLinks.push({
                 public_id: result.public_id,
                 url: result.secure_url
@@ -84,7 +86,51 @@ export const getAllProducts = handleAsyncError(async (req, res, next) => {
 // 3️⃣ Update Product
 export const updateProduct = handleAsyncError(async (req, res, next) => {
 
-    const product = await Product.findByIdAndUpdate(
+    let product = await Product.findById(req.params.id);
+
+    if (!product) {
+        return next(new HandleError("Product Not Found", 404));
+    }
+
+    let imageLinks = [];
+
+    // If new images are uploaded
+    if (req.files && req.files.length > 0) {
+
+        // Delete old images from Cloudinary
+        for (let i = 0; i < product.images.length; i++) {
+            await cloudinary.uploader.destroy(
+                product.images[i].public_id
+            );
+        }
+
+        // Upload new images
+        for (let i = 0; i < req.files.length; i++) {
+
+            const filePath = req.files[i].path;
+
+            const result = await cloudinary.uploader.upload(
+                filePath,
+                {
+                    folder: "products"
+                }
+            );
+
+            // Remove local file
+            if(fs.existsSync(filePath)){
+                fs.unlinkSync(filePath);
+            }
+
+            imageLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            });
+        }
+
+        req.body.images = imageLinks;
+    }
+
+    product = await Product.findByIdAndUpdate(
         req.params.id,
         req.body,
         {
@@ -92,10 +138,6 @@ export const updateProduct = handleAsyncError(async (req, res, next) => {
             runValidators: true
         }
     );
-
-    if (!product) {
-        return next(new HandleError("Product Not Found", 404));
-    }
 
     res.status(200).json({
         success: true,
@@ -107,18 +149,28 @@ export const updateProduct = handleAsyncError(async (req, res, next) => {
 
 // 4️⃣ Delete Product
 export const deleteProduct = handleAsyncError(async (req, res, next) => {
-
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findById(req.params.id);
 
     if (!product) {
         return next(new HandleError("Product Not Found", 404));
     }
+    // Delete images from Cloudinary
+    if (product.images && product.images.length > 0) {
+
+        for (let i = 0; i < product.images.length; i++) {
+            await cloudinary.uploader.destroy(
+                product.images[i].public_id
+            );
+        }
+
+    }
+    // Delete product from database
+    await Product.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
         success: true,
         message: "Product deleted successfully"
     });
-
 });
 
 

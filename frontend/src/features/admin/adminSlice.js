@@ -22,12 +22,70 @@ export const createProduct = createAsyncThunk('admin/createProduct', async ( pro
 });
 
 
+// get single product for update
+export const getAdminProductDetails = createAsyncThunk(
+    'admin/getAdminProductDetails',
+    async (id, {rejectWithValue}) => {
+        try {
+            const {data} = await axios.get(`/api/v1/admin/product/${id}`);
+            return data;
+        } catch(error){
+            return rejectWithValue(
+                error.response?.data || "Product Details Fetch Failed!"
+            );
+        }
+    }
+);
+
+// update product
+export const updateProduct = createAsyncThunk(
+    'admin/updateProduct',
+    async ({id, productData}, {rejectWithValue}) => {
+        try {
+            const {data} = await axios.put(
+                `/api/v1/admin/product/${id}`,
+                productData
+            );
+
+            return data;
+
+        } catch(error){
+            return rejectWithValue(
+                error.response?.data || "Product Update Failed!"
+            );
+        }
+    }
+);
+
+// delete product
+export const deleteProduct = createAsyncThunk(
+    'admin/deleteProduct',
+    async (id, {rejectWithValue}) => {
+        try {
+            const {data} = await axios.delete(
+                `/api/v1/admin/product/${id}`
+            );
+
+            return {data, id};
+
+        } catch(error){
+            return rejectWithValue(
+                error.response?.data || "Product Delete Failed!"
+            );
+        }
+    }
+);
+
 const adminSlice = createSlice({
     name:'admin',
     initialState:{
         products:[],
+        product:null,
         success:false,
+        deleteSuccess:false,
         loading:false,
+        updateLoading:false,
+        deleteLoading:false,
         error:null
     },
     reducers:{
@@ -36,6 +94,9 @@ const adminSlice = createSlice({
         },
         removeSuccess:(state)=>{
             state.success=null
+        },
+        removeDeleteSuccess:(state)=>{
+        state.deleteSuccess=false
         }
     },
     extraReducers:(builder)=>{
@@ -68,8 +129,62 @@ const adminSlice = createSlice({
                 state.loading = false;
                 state.error  = action.payload?.message || '"Product Creation Failed!"'
             })
+        builder
+            .addCase(getAdminProductDetails.pending,(state)=>{
+                state.loading = true;
+                 state.product=null;
+                state.error = null;
+            })
+
+            .addCase(getAdminProductDetails.fulfilled,(state,action)=>{
+                console.log("API DATA:", action.payload);
+                state.loading=false;
+                state.product=action.payload.product;
+            })
+
+            .addCase(getAdminProductDetails.rejected,(state,action)=>{
+                state.loading = false;
+                state.error = action.payload?.message || "Product Details Failed";
+            })
+        builder
+            .addCase(updateProduct.pending,(state)=>{
+    state.updateLoading = true;
+    state.error = null;
+            })
+
+            .addCase(updateProduct.fulfilled,(state,action)=>{
+                state.updateLoading = false;
+                state.success = action.payload.success;
+                state.product = action.payload.product;
+            })
+
+            .addCase(updateProduct.rejected,(state,action)=>{
+                state.updateLoading = false;
+                state.error = action.payload?.message || "Product Update Failed";
+            })
+        builder
+            .addCase(deleteProduct.pending,(state)=>{
+                state.deleteLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteProduct.fulfilled,(state,action)=>{
+                state.deleteLoading = false;
+                state.deleteSuccess = true;
+
+                state.products = state.products.filter(
+                    product => product._id !== action.payload.id
+                );
+            })
+            .addCase(deleteProduct.rejected,(state,action)=>{
+                state.deleteLoading = false;
+                state.error = action.payload?.message || "Product Delete Failed";
+            })
     }
 })
 
-export const {removeErrors, removeSuccess} = adminSlice.actions;
+export const {
+    removeErrors,
+    removeSuccess,
+    removeDeleteSuccess
+} = adminSlice.actions;
 export default adminSlice.reducer;

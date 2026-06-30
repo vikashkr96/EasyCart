@@ -14,10 +14,11 @@ function ProductDetails() {
     const [userRating, setUserRating] = useState(0);
     const [comment, setComment] = useState("");
     const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState('');
 
     const { loading, error, product, reviewSuccess, reviewLoading} = useSelector((state) => state.product);
     const {loading:cartLoading, error: cartError, success, message, cartItems} = useSelector((state)=>state.cart) 
-
+    
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -122,6 +123,13 @@ function ProductDetails() {
         }
     },[reviewSuccess, id, dispatch])
 
+
+    useEffect(()=>{
+        if(product && product.images && product.images.length > 0){
+            setSelectedImage(product.images[0].url)
+        }
+    },[product])
+
         if (loading) {
         return <Loader />;
     }
@@ -149,10 +157,16 @@ function ProductDetails() {
 
                     <div className="product-image-container">
                         <img
-                            src={product.images[0].url.replace('./', '/')}
+                            src={selectedImage}
                             alt={product.name}
                             className="product-detail-image"
                         />
+                        {product.images.length > 1 && (<div className="product-thumbnails">
+                            {product.images.map((img,index)=>(<img src={img.url} 
+                                alt={`Thumbnail ${index+1}`}
+                                className="thumbnail-image" onClick={()=>setSelectedImage(img.url)}
+                            />))}
+                            </div>)}
                     </div>
 
                     <div className="product-info">

@@ -9,6 +9,7 @@ import {Link, useNavigate} from 'react-router-dom'
 function Cart() {
 
     const {cartItems} = useSelector(state=>state.cart)
+    const {products} = useSelector(state=>state.product)
 
     const subTotal = cartItems.reduce((acc, item)=> acc+item.price*item.quantity, 0);
     const tax = subTotal*0.18 ;

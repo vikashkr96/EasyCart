@@ -30,6 +30,8 @@ import Dashboard from "./Admin/Dashboard";
 import ProductsList from "./Admin/ProductsList";
 import CreateProducts from "./Admin/CreateProducts";
 import UpdateProduct from "./Admin/UpdateProduct";
+import UsersList from "./Admin/UsersList";
+import UpdateRole from "./Admin/UpdateRole";
 
 // Small wrapper so we can use useLocation() inside the Router
 function AppContent() {
@@ -77,6 +79,8 @@ function AppContent() {
           <Route path="/admin/products" element={<ProtectedRoute element={<ProductsList />} adminOnly={true} />} />
           <Route path="/admin/product/create" element={<ProtectedRoute element={<CreateProducts />} adminOnly={true} />} />
           <Route path="/admin/product/:updateId" element={<ProtectedRoute element={<UpdateProduct />} adminOnly={true} />} />
+          <Route path="/admin/users" element={<ProtectedRoute element={<UsersList />} adminOnly={true} />} />
+          <Route path="/admin/user/:userId" element={<ProtectedRoute element={<UpdateRole />} adminOnly={true} />} />
 
         </Routes>
         {!isLoadingUser && isAuthenticated && !isAdminRoute && <UserDashboard user={user} />}

@@ -75,11 +75,11 @@ function OrderConfirm() {
             <tbody>
                 {cartItems.map((item)=>(
                 <tr key={item.product}>
-                    <td><img src={item.image} alt={item.name} className='product-image' /></td>
+                    <td><img src={item.image} alt={item.name} className='order-product-image' /></td>
                     <td>{item.name}</td>
-                    <td>{item.price}</td>
+                    <td>₹{item.price.toFixed(2)}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.quantity*item.price}</td>
+                    <td>₹{(item.quantity * item.price).toFixed(2)}</td>
                     
                 </tr>
                 ))}

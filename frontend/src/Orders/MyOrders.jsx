@@ -43,7 +43,7 @@ function MyOrders() {
                                 <td>{order._id}</td>
                                 <td>{order.orderItems.length}</td>
                                 <td>{order.orderStatus}</td>
-                                <td>{order.totalPrice}</td>
+                                <td>₹{order.totalPrice.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
                                 <td>
                                     <Link
                                         className="order-link"

@@ -99,7 +99,7 @@ function Payment() {
           disabled={!orderItem?.totalPrice}
           onClick={() => completePayment(orderItem?.totalPrice)}
       >
-          Pay {orderItem?.totalPrice || 0} /-
+          Pay ₹{orderItem?.totalPrice.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || 0} /-
         </button>
       </div>
     </>

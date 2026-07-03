@@ -81,7 +81,7 @@ function OrdersList() {
                     <td>{index+1}</td>
                     <td>{order._id}</td>
                     <td className={`order-status ${order.orderStatus.toLowerCase()}`}>{order.orderStatus}</td>
-                    <td>{`₹ ${order.totalPrice.toFixed(2)}`}</td>
+                    <td>{`₹ ${order.totalPrice.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}`}</td>
                     <td>{order.orderItems.length}</td>
                     <td>
                         <Link to={`/admin/order/${order._id}`} className='action-icon edit-icon'><Edit/></Link>

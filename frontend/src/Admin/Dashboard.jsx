@@ -7,6 +7,7 @@ import ReviewsIcon from '@mui/icons-material/Reviews';
 
 
 function Dashboard() {
+    const p = 1500;
   return (
     <>
     <div className="dashboard-container">
@@ -68,7 +69,7 @@ function Dashboard() {
                 <div className="stat-box">
                     <AttachMoney className='icon'/>
                     <h3>Total Revenue</h3>
-                    <p>1500</p>
+                    <p>₹{p.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</p>
                 </div>
                 <div className="stat-box">
                     <ReviewsIcon className='icon'/>

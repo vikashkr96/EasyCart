@@ -77,9 +77,9 @@ function OrderConfirm() {
                 <tr key={item.product}>
                     <td><img src={item.image} alt={item.name} className='order-product-image' /></td>
                     <td>{item.name}</td>
-                    <td>₹{item.price.toFixed(2)}</td>
+                    <td>₹{item.price.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
                     <td>{item.quantity}</td>
-                    <td>₹{(item.quantity * item.price).toFixed(2)}</td>
+                    <td>₹{(item.quantity * item.price).toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
                     
                 </tr>
                 ))}
@@ -100,11 +100,11 @@ function OrderConfirm() {
 
                 <tbody>
                     <tr>
-                        <td>{subTotal.toFixed(2)}</td>
-                        <td>{shipping.toFixed(2)}</td>
-                        <td>{tax.toFixed(2)}</td>
-                        <td>{discount.toFixed(2)}</td>
-                        <td>{total.toFixed(2)}</td>
+                        <td>₹{subTotal.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
+                        <td>₹{shipping.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
+                        <td>₹{tax.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
+                        <td>₹{discount.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
+                        <td>₹{total.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
                     </tr>
                 </tbody>
 

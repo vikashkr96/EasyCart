@@ -60,7 +60,7 @@ function OrderDetails() {
                     <td className="table-cell"><img src={item.image} alt={item.name} className='item-img' /></td>
                     <td className="table-cell">{item.name}</td>
                     <td className="table-cell">{item.quantity}</td>
-                    <td className="table-cell">{item.price?.toFixed(2) || "0.00"}</td>
+                    <td className="table-cell">₹{item.price?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}</td>
                 </tr>
                 ))}
             </tbody>
@@ -110,31 +110,31 @@ function OrderDetails() {
                     <tr className="table-row">
                         <th className="table-cell">Item Price</th>
                         <td className="table-cell">
-                            {itemPrice?.toFixed(2) || "0.00"}
+                            ₹{itemPrice?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}
                         </td>
                     </tr>
                     <tr className="table-row">
                         <th className="table-cell">Tax Price</th>
                         <td className="table-cell">
-                            {taxPrice?.toFixed(2) || "0.00"}
+                            ₹{taxPrice?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}
                         </td>
                     </tr>
                     <tr className="table-row">
                         <th className="table-cell">Shipping Price</th>
                         <td className="table-cell">
-                            {shippingPrice?.toFixed(2) || "0.00"}
+                            ₹{shippingPrice?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}
                         </td>
                     </tr>
                     <tr className="table-row">
                         <th className="table-cell">Discount</th>
                         <td className="table-cell">
-                            {discount?.toFixed(2) || "0.00"}
+                            ₹{discount?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}
                         </td>
                     </tr>
                     <tr className="table-row">
                         <th className="table-cell">Total Price</th>
                         <td className="table-cell">
-                            {totalPrice?.toFixed(2) || "0.00"}
+                           ₹ {totalPrice?.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 }) || "0.00"}
                         </td>
                     </tr>
                 </tbody>

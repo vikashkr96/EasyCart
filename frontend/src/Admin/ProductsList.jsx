@@ -119,7 +119,7 @@ function ProductsList(){
 
                                 <td>{product.name}</td>
 
-                                <td>{product.price}</td>
+                                <td>₹{product.price.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}</td>
 
                                 <td>
                                     {

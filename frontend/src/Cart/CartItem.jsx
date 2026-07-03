@@ -76,7 +76,7 @@ function CartItem({item}) {
                         <div className="item-details">
                             <h3 className="item-name">{item.name}</h3>
                             <p className="item-price">
-                              Price: {item.price.toFixed(2)}
+                              Price: ₹{item.price.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}
                             </p>
                             <p className="item-quantity">
                                 Quantity: {quantity}
@@ -92,7 +92,7 @@ function CartItem({item}) {
 
                     <div className="item-total">
                         <span className="item-total-price">
-                            {(quantity * item.price).toFixed(2)}
+                            ₹{(quantity * item.price).toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}
                         </span> 
                     </div>
 

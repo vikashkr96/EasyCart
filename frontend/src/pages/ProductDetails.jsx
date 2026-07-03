@@ -177,7 +177,7 @@ function ProductDetails() {
                         </p>
 
                         <p className="product-price">
-                            Price : ₹ {product.price} /-
+                            Price : ₹ {product.price.toLocaleString('en-IN', {minimumFractionDigits: 2,maximumFractionDigits: 2 })}
                         </p>
 
                         <div className="product-rating">

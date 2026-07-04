@@ -71,7 +71,7 @@
   
 
   .reviews-details {
-    margin-top: 40px;
+    margin-top: 80px;
   }
   
   .reviews-details h2 {
@@ -97,3 +97,139 @@
       padding: 10px;
     }
   }
+
+  .view-btn:disabled{
+    opacity:0.45;
+    cursor:not-allowed;
+    background:#bdbdbd;
+    color:#fff;
+}
+
+.no-review-selected{
+    text-align:center;
+    font-size:1.1rem;
+    font-weight:500;
+    margin:40px 0;
+    color:#555;
+}
+
+.reviews-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.reviews-modal {
+    background: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.25s ease;
+}
+
+.reviews-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.reviews-modal-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #f0f0f0;
+}
+
+.reviews-modal-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.review-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border: 1px solid #eee;
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.review-user {
+    font-weight: 600;
+    color: #333;
+}
+
+.review-rating {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.review-comment {
+    color: #444;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.delete-review-btn {
+    background-color: #e53935;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.delete-review-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .reviews-modal {
+        width: 95%;
+        max-height: 85vh;
+    }
+}

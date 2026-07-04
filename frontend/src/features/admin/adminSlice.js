@@ -184,6 +184,39 @@ export const updateOrderStatus = createAsyncThunk(
     }
 );
 
+
+// Fetch All Reviews
+export const fetchProductReviews = createAsyncThunk(
+    'admin/fetchProductReviews',
+    async (productId, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.get(`/api/v1/admin/reviews?id=${productId}`);
+            return data;
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data || "Failed to Fetch Product Reviews"
+            );
+        }
+    }
+);
+
+// Delete Review
+export const deleteReview = createAsyncThunk(
+    'admin/deleteReview',
+    async ({ reviewId, productId }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.delete(
+                `/api/v1/admin/reviews?id=${reviewId}&productId=${productId}`
+            );
+            return { ...data, id: reviewId };
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data || "Failed to Delete Review"
+            );
+        }
+    }
+);
+
 const adminSlice = createSlice({
     name:'admin',
     initialState:{
@@ -200,7 +233,8 @@ const adminSlice = createSlice({
         message:null,
         orders:[],
         totalAmount:0,
-        order:{}
+        order:{},
+        reviews:[]
     },
     reducers:{
         removeErrors:(state)=>{
@@ -378,8 +412,8 @@ const adminSlice = createSlice({
             })
         builder
             .addCase(updateOrderStatus.pending, (state) => {
-    state.updateLoading = true;
-    state.error = null;
+            state.updateLoading = true;
+            state.error = null;
             })
             .addCase(updateOrderStatus.fulfilled, (state, action) => {
                 state.updateLoading = false;
@@ -390,6 +424,36 @@ const adminSlice = createSlice({
                 state.updateLoading = false;
                 state.error =
                     action.payload?.message || "Failed to Update this Order";
+            })
+        builder
+            .addCase(fetchProductReviews.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+            })
+            .addCase(fetchProductReviews.fulfilled, (state, action) => {
+                state.loading = false;
+                state.reviews = action.payload.reviews;
+            })
+            .addCase(fetchProductReviews.rejected, (state, action) => {
+                state.loading = false;
+                state.error =
+                action.payload?.message || "Failed to Fetch Product Reviews";
+            })
+        builder
+            .addCase(deleteReview.pending, (state) => {
+                state.deleteLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteReview.fulfilled, (state, action) => {
+                state.deleteLoading = false;
+                state.deleteSuccess = action.payload.success;
+                state.reviews = state.reviews.filter(
+                    review => review._id !== action.payload.id
+                );
+            })
+            .addCase(deleteReview.rejected, (state, action) => {
+                state.deleteLoading = false;
+                state.error = action.payload?.message || "Failed to Delete Review";
             })
     }
 })

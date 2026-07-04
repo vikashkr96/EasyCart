@@ -1,6 +1,0 @@
- (improved 1, 2, 3)
-
-
-4.  after deleting user profile -> also delete the profile pic from cloudinary ......  done✅
-
-5. Price formatting on each page done✅

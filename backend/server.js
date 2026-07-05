@@ -6,7 +6,9 @@ import Razorpay from 'razorpay'
 
 
 // Load env vars FIRST
-dotenv.config({ path: "./backend/config/config.env" });
+if(process.env.NODE_ENV !== 'PRODUCTION'){
+    dotenv.config({path:'backend/config/config.env'})
+}
 
 // Cloudinary instance 
 cloudinary.config({

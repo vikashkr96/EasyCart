@@ -2,7 +2,7 @@
   <h1>🛒 EasyCart</h1>
   <p><strong>A Scalable, Full-Stack E-Commerce Platform</strong></p>
 
-  [![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-success?style=for-the-badge&logo=vercel)](https://easycart-m8dj.onrender.com/)
+  [![https://www.easy2cart.online/](https://img.shields.io/badge/Live_Demo-Visit_Site-success?style=for-the-badge&logo=vercel)](https://www.easy2cart.online/)
 </div>
 
 <br />

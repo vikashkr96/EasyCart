@@ -1,0 +1,90 @@
+.contact-container {
+  background-color: #ffffff;
+  color: #333333;
+  min-height: 100vh;
+  padding: 100px 20px 40px; /* Increased top padding so navbar doesn't hide headings */
+  display: flex;
+  justify-content: center;
+}
+
+.contact-content {
+  max-width: 800px;
+  width: 100%;
+}
+
+.contact-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 24px;
+}
+
+.contact-section {
+  margin-bottom: 32px;
+}
+
+.contact-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 16px;
+}
+
+.contact-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444444;
+  margin-bottom: 16px;
+}
+
+/* Optional Form Styling */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #444444;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  background-color: #f9f9f9;
+  border: 1px solid #cccccc;
+  color: #333333;
+  padding: 12px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #999999;
+}
+
+.submit-btn {
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: flex-start;
+}
+
+.submit-btn:hover {
+  background-color: #333333;
+}

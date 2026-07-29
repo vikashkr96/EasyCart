@@ -1,0 +1,979 @@
+{
+  "info": {
+    "_postman_id": "21d8647f-575c-4de2-9f34-3db2553ab99f",
+    "name": "E-COMMERCE PROJECT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54822237",
+    "_collection_link": "https://go.postman.co/collection/54822237-21d8647f-575c-4de2-9f34-3db2553ab99f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "CREATE NEW PRODUCT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Visualization Script",
+                  "// Visualization Script",
+                  "const template = `",
+                  "<div style=\"padding: 20px; font-family: Arial, sans-serif;\">",
+                  "  <h2>Product Data Visualization</h2>",
+                  "  <div style=\"display: flex; gap: 30px; margin-top: 20px;\">",
+                  "    <div style=\"flex: 1;\">",
+                  "      <h3>{{product.name}}</h3>",
+                  "      <p><strong>Category:</strong> {{product.category}}</p>",
+                  "      <p><strong>Description:</strong> {{product.description}}</p>",
+                  "    </div>",
+                  "    <div style=\"flex: 1;\">",
+                  "      <table style=\"width: 100%; border-collapse: collapse;\">",
+                  "        <tr style=\"background-color: #f0f0f0;\">",
+                  "          <th style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Metric</th>",
+                  "          <th style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">Value</th>",
+                  "        </tr>",
+                  "        <tr>",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px;\">Price</td>",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">₹{{product.price}}</td>",
+                  "        </tr>",
+                  "        <tr style=\"background-color: #f9f9f9;\">",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px;\">Rating</td>",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">{{product.rating}}/5</td>",
+                  "        </tr>",
+                  "        <tr>",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px;\">Stock</td>",
+                  "          <td style=\"border: 1px solid #ddd; padding: 8px; text-align: right;\">{{product.stock}} units</td>",
+                  "        </tr>",
+                  "      </table>",
+                  "    </div>",
+                  "  </div>",
+                  "  <div style=\"margin-top: 30px;\">",
+                  "    <h3>Bar Chart - Numeric Values</h3>",
+                  "    <div style=\"display: flex; align-items: flex-end; gap: 20px; height: 250px; margin-top: 20px;\">",
+                  "      <div style=\"flex: 1; display: flex; flex-direction: column; align-items: center;\">",
+                  "        <div style=\"width: 60px; background-color: #3498db; height: {{priceHeight}}px; border-radius: 4px;\"></div>",
+                  "        <p style=\"margin-top: 10px; font-weight: bold;\">Price</p>",
+                  "        <p style=\"color: #666;\">₹{{product.price}}</p>",
+                  "      </div>",
+                  "      <div style=\"flex: 1; display: flex; flex-direction: column; align-items: center;\">",
+                  "        <div style=\"width: 60px; background-color: #2ecc71; height: {{ratingHeight}}px; border-radius: 4px;\"></div>",
+                  "        <p style=\"margin-top: 10px; font-weight: bold;\">Rating</p>",
+                  "        <p style=\"color: #666;\">{{product.rating}}/5</p>",
+                  "      </div>",
+                  "      <div style=\"flex: 1; display: flex; flex-direction: column; align-items: center;\">",
+                  "        <div style=\"width: 60px; background-color: #e74c3c; height: {{stockHeight}}px; border-radius: 4px;\"></div>",
+                  "        <p style=\"margin-top: 10px; font-weight: bold;\">Stock</p>",
+                  "        <p style=\"color: #666;\">{{product.stock}} units</p>",
+                  "      </div>",
+                  "    </div>",
+                  "  </div>",
+                  "</div>",
+                  "`;",
+                  "",
+                  "function createPayload() {",
+                  "  const response = pm.response.json();",
+                  "  const product = response.product;",
+                  "  ",
+                  "  // Calculate bar heights (normalized to fit in 200px max height)",
+                  "  const maxPrice = 1000;",
+                  "  const maxRating = 5;",
+                  "  const maxStock = 100;",
+                  "  ",
+                  "  const priceHeight = (product.price / maxPrice) * 200;",
+                  "  const ratingHeight = (product.rating / maxRating) * 200;",
+                  "  const stockHeight = (product.stock / maxStock) * 200;",
+                  "  ",
+                  "  return {",
+                  "    product: product,",
+                  "    priceHeight: priceHeight,",
+                  "    ratingHeight: ratingHeight,",
+                  "    stockHeight: stockHeight",
+                  "  };",
+                  "}",
+                  "",
+                  "pm.visualizer.set(template, createPayload());"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"product20\",\r\n    \"description\": \"This is product 20\",\r\n    \"price\":6000,\r\n    \"category\": \"Clothes\",\r\n    \"stock\":2500,\r\n    \"rating\": 4,\r\n    \"images\": [\r\n        {\r\n            \"public_id\": \"sample_id_20\",\r\n            \"url\": \"https://example.com/image20.jpg\"\r\n        }\r\n    ],\r\n    \"reviews\": [\r\n        {\r\n            \"name\": \"Vikash kumar\",\r\n            \"rating\": 4,\r\n            \"comment\": \"this is Very good product\"\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/product/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "product",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE PRODUCT",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"price\": 150000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/product/6a05c096f304c1119c5aad14",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "product",
+                "6a05c096f304c1119c5aad14"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE PRODUCT",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/product/6a05c096f304c1119c5aad14",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "product",
+                "6a05c096f304c1119c5aad14"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET SINGLE PRODUCT",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/product/6a05ab382a4e88d6fd803ece",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "6a05ab382a4e88d6fd803ece"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL PRODUCTS",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE/UPDATE REVIEW",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rating\":5,\r\n    \"comment\":\"best product ever seen!\",\r\n    \"productId\":\"6a1827e5a56950f758797286\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/review",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "review"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET PRODUCT REVIEWS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/reviews?id=6a1827e5a56950f758797285",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "6a1827e5a56950f758797285"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE PRODUCT REVIEWS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/reviews?productId=6a1827e5a56950f758797286&id=6a182804a56950f758797289",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "6a1827e5a56950f758797286"
+                },
+                {
+                  "key": "id",
+                  "value": "6a182804a56950f758797289",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "LOGIN USER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"codeyourcareer01@gmail.com\",\r\n    \"password\" : \"Vikash@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "REGISTER USER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Amit Kumar\",\r\n    \"email\": \"amit1@gmail.com\",\r\n    \"password\" : \"Amit@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LOGOUT USER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/logout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FORGOT PASSWORD-EMAIL",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"vk4845647@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/password/forgot",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "forgot"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RESET PASSWORD",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"password\":\"Vk@12345678\",\r\n   \"confirmPassword\":\"Vk@12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/reset/378ca6f0fc9cc583bf22664eed90cc8809aa1644",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reset",
+                "378ca6f0fc9cc583bf22664eed90cc8809aa1644"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE PASSWORD",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"oldPassword\":\"Vk@12345678\",\r\n    \"newPassword\":\"Vikash@123\",\r\n    \"confirmPassword\":\"Vikash@123\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/password/update",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE PROFILE",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \r\n    \"name\": \"Vikash\",\r\n    \"email\": \"codeyourcareer01@gmail.com\"\r\n        \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/profile/update",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "profile",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "GET ALL PRODUCTS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL USERS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET SINGLE USER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/user/6a102ed28cba3fa220625bc",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "user",
+                "6a102ed28cba3fa220625bc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE USER ROLE",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"role\":\"user\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/user/6a1804ed1433177bfddef607",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "user",
+                "6a1804ed1433177bfddef607"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE USER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/user/6a1804ed1433177bfddef607",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "user",
+                "6a1804ed1433177bfddef607"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL ORDERS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE ORDER STATUS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"Delivered\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/order/6a213aa9cb86010f8da5e07a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "order",
+                "6a213aa9cb86010f8da5e07a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE ORDER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"Delivered\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/order/6a213e947d53774a138b7301",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "order",
+                "6a213e947d53774a138b7301"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "CREATE ORDER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"shippingInfo\": {\r\n    \"address\": \"123 Main Street\",\r\n    \"city\": \"Delhi\",\r\n    \"country\": \"India\",\r\n    \"pinCode\": 110001,\r\n    \"phoneNo\": 9876543210\r\n  },\r\n  \"orderItems\": [\r\n    {\r\n      \"name\": \"product1\",\r\n      \"price\": 300,\r\n      \"quantity\": 2,\r\n      \"image\": \"https://example.com/images/mouse.jpg\",\r\n      \"product\": \"6a1827bfa56950f758797284\"\r\n    }\r\n  ],\r\n  \"paymentInfo\": {\r\n    \"id\": \"9648412554\",\r\n    \"status\": \"processing\"\r\n  },\r\n  \"itemPrice\": 300,\r\n  \"taxPrice\": 10,\r\n  \"shippingPrice\": 50,\r\n  \"totalPrice\": 720\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/new/order",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "new",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET SINGLE ORDER",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/admin/order/6a21268102ff4138971993f6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "order",
+                "6a21268102ff4138971993f6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET LOGGED-IN ORDERS",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/orders/user",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "orders",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "PAYMENT PROCESS",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\":1000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/payment/process",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "payment",
+                "process"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET API KEY",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/getKey",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "getKey"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

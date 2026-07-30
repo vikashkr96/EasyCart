@@ -8,6 +8,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 import '../componentStyles/Footer.css'
+import Link from '@mui/material/Link';
 
 function Footer() {
 
@@ -94,7 +95,7 @@ function Footer() {
           <h3>About Us</h3>
 
           <p>
-            Welcome to our e-commerce store! We are dedicated to providing the best products and customer service.
+            Welcome to our e-commerce store! We are dedicated to providing the best products and customer service..
           </p>
 
         </div>
@@ -111,4 +112,4 @@ function Footer() {
   )
 }
 
-export default Footer
+export default Footer  

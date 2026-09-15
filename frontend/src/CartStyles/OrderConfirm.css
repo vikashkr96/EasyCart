@@ -80,8 +80,24 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .confirm-container {
+        padding: 12px;
+        margin: 15px 8px;
+    }
+
+    .confirm-header {
+        font-size: 1.4rem;
+    }
+
     .confirm-table-container {
         gap: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    .confirm-table {
+        min-width: 300px;
     }
 
     .confirm-table caption {
@@ -91,10 +107,13 @@
     .confirm-table th,
     .confirm-table td {
         font-size: 0.8rem;
+        padding: 8px;
     }
 
     .proceed-button {
-        padding: 10px 25px;
-        font-size: 0.9rem;
+        width: 100%;
+        max-width: 300px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
     }
 }

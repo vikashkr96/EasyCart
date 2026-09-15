@@ -52,3 +52,54 @@
   .checkoutPath-step[completed="true"]::after {
     background: #10b981;
   }
+
+  @media (max-width: 768px) {
+    .checkoutPath {
+      padding: 5rem 0.5rem 1.25rem;
+      gap: 0.5rem;
+    }
+
+    .checkoutPath-icon {
+      padding: 0.5rem;
+    }
+
+    .checkoutPath-icon .MuiSvgIcon-root {
+      font-size: 1.25rem;
+    }
+
+    .checkoutPath-label {
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .checkoutPath-step:not(:last-child)::after {
+      top: 1.1rem;
+      left: 55%;
+      width: 90%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .checkoutPath {
+      padding: 4.5rem 0.25rem 1rem;
+      gap: 0.25rem;
+    }
+
+    .checkoutPath-label {
+      font-size: 0.68rem;
+    }
+
+    .checkoutPath-icon {
+      padding: 0.35rem;
+    }
+
+    .checkoutPath-icon .MuiSvgIcon-root {
+      font-size: 1rem;
+    }
+
+    .checkoutPath-step:not(:last-child)::after {
+      top: 0.95rem;
+      left: 55%;
+      width: 85%;
+    }
+  }

@@ -48,3 +48,24 @@
   margin-bottom: 8px;
   line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+  .about-container {
+    padding: 75px 16px 30px;
+  }
+
+  .about-content h1 {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+  }
+
+  .about-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .about-section p,
+  .about-section li {
+    font-size: 0.95rem;
+  }
+}

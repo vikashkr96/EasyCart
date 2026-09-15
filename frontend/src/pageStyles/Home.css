@@ -29,10 +29,37 @@
 }
   
 @media (max-width: 900px) {
+  .home-container {
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+  }
+
+  .home-heading {
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
+  }
+
   .home-product-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 7rem;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
 }
-  
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 1rem 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .home-heading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .home-product-container {
+    gap: 1rem;
+  }
 }

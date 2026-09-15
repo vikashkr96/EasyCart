@@ -92,16 +92,34 @@
 
 
 @media (max-width: 768px) {
+  .order-box {
+    margin: 4.5rem 10px 2rem;
+    padding: 1rem;
+  }
+
+  .table-block {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
   .table-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .table-main {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    min-width: 320px;
+  }
+
+  .head-cell,
+  .table-cell {
+    padding: 0.5rem;
   }
 
   .item-img {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
   }
 }

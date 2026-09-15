@@ -88,3 +88,26 @@
 .submit-btn:hover {
   background-color: #333333;
 }
+
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 75px 16px 30px;
+  }
+
+  .contact-content h1 {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+  }
+
+  .contact-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    align-self: stretch;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}

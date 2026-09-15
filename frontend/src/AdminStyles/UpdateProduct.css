@@ -98,17 +98,30 @@
   @media (max-width: 840px) {
     .update-product-wrapper {
       width: 95%;
-      padding: 24px;
+      padding: 16px;
+      margin: 60px auto 20px;
+    }
+
+    .update-product-title {
+      font-size: 22px;
+      margin-bottom: 25px;
     }
     
     .update-product-preview-wrapper,
     .update-product-old-images-wrapper {
       grid-template-columns: repeat(2, 1fr);
+      width: 100%;
     }
     
     .update-product-preview-image,
     .update-product-old-image {
-      width: 140px;
-      height: 140px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .update-product-input,
+    .update-product-textarea,
+    .update-product-select {
+      width: 100%;
     }
   }

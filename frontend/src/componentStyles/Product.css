@@ -104,3 +104,27 @@
 .add-to-cart:hover {
   background-color: var(--primary-dark);
 }
+
+@media (max-width: 600px) {
+  .product-card {
+    width: 100%;
+    max-width: 280px;
+    margin: 0.5rem auto;
+  }
+
+  .product-image-card {
+    max-height: 180px;
+  }
+
+  .product-title {
+    font-size: 1.1rem;
+  }
+
+  .add-to-cart {
+    width: 90%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

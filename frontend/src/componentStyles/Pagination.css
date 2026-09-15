@@ -43,12 +43,19 @@
 
 @media (max-width: 768px) {
   .pagination {
-    gap: 4px;
+    gap: 6px;
     padding: 8px;
+    margin-top: 30px;
+    flex-wrap: wrap;
   }
 
   .pagination-btn {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 6px 10px;
+    min-width: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }

@@ -84,17 +84,23 @@
 
   @media (max-width: 768px) {
     .reviews-list-container {
-      margin: 20px;
-      padding: 15px;
+      margin: 60px 10px 20px;
+      padding: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
   
     .reviews-list-title {
-      font-size: 2rem;
+      font-size: 1.5rem;
     }
   
+    .reviews-table {
+      min-width: 480px;
+    }
+
     .reviews-table th, .reviews-table td {
-      font-size: 14px;
-      padding: 10px;
+      font-size: 13px;
+      padding: 8px 6px;
     }
   }
 

@@ -17,8 +17,10 @@
 
   .table-responsive {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
-  
+
   .orders-table {
     width: 100%;
     border-collapse: collapse;
@@ -57,16 +59,30 @@
     min-height: 70vh;
   }
   .no-order-message{
-    font-size: 40px;;
+    font-size: 40px;
   }
   .order-link{
     color: var(--bg-secondary);
   }
 
   @media (max-width: 768px) {
+    .my-orders-container {
+      margin: 70px 10px 20px;
+      padding: 12px;
+    }
+
+    .orders-table {
+      min-width: 480px;
+      font-size: 13px;
+    }
+
     .orders-table th,
     .orders-table td {
-      font-size: 14px;
+      font-size: 13px;
       padding: 8px 10px;
+    }
+
+    .no-order-message {
+      font-size: 24px;
     }
   }

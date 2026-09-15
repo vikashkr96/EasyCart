@@ -179,31 +179,48 @@
     margin: 8px 0;
     font-size: 1rem;
   }
-  
+
+  @media (min-width: 769px) {
+    .sidebar {
+      top: 60px !important;
+      height: calc(100vh - 60px) !important;
+      z-index: 999;
+    }
+  }
+
   @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+    }
+
     .sidebar {
       width: 100%;
-      height: auto;
+      height: auto !important;
       position: relative;
+      top: 0 !important;
+      margin-top: 60px;
+      padding: 15px;
     }
   
-    .main-content {
+    .admin-main-content {
       margin-left: 0;
+      margin-top: 0;
+      width: 100%;
+      padding: 15px;
     }
   
     .stats-grid {
       grid-template-columns: 1fr;
+      gap: 15px;
     }
   
     .social-stats {
       grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .page-title {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
     }
   }
-
-  /* ===== Navbar fix: push sidebar below the fixed navbar ===== */
-
-.sidebar {
-  top: 60px !important; /* navbar height - sidebar starts right below it */
-  height: calc(100vh - 60px) !important;
-  z-index: 999; /* stays below navbar's z-index */
-}

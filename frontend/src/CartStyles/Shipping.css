@@ -19,8 +19,35 @@
    }
    
    @media (max-width: 768px) {
-    form {
+    .shipping-form-container {
+      margin: 20px auto;
+      padding: 0 12px;
+    }
+
+    .shipping-form-header {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .shipping-form {
       grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .shipping-section {
+      gap: 14px;
+    }
+
+    .shipping-form-group input,
+    .shipping-form-group select {
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+
+    .shipping-submit-btn {
+      padding: 12px;
+      font-size: 15px;
+      margin-top: 10px;
     }
    }
    

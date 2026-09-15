@@ -1,5 +1,7 @@
 .payment-container {
-    height: 40vh;
+    min-height: 50vh;
+    margin-top: 60px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,6 +12,7 @@
   .payment-container > * {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem; 
   }
   

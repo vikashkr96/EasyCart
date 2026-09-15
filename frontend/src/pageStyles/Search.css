@@ -40,5 +40,16 @@
 .search-icon .MuiSvgIcon-root {
   color: #fff;
   font-size: 1.5rem;
+}
 
+@media (max-width: 480px) {
+  .search-form.active .search-input {
+    width: 90px;
+    font-size: 0.85rem;
+    padding: 4px 6px;
+  }
+
+  .search-icon .MuiSvgIcon-root {
+    font-size: 1.35rem;
+  }
 }

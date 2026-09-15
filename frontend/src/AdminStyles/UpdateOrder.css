@@ -105,20 +105,32 @@
 
 @media (max-width: 768px) {
   .order-container {
-    padding: 15px;
+    margin: 60px 10px 20px;
+    padding: 12px;
   }
 
   .order-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+  }
+
+  .order-items {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .order-table {
+    min-width: 400px;
   }
 
   .order-table th,
   .order-table td {
-    padding: 6px;
+    padding: 6px 4px;
+    font-size: 13px;
   }
 
   .status-select {
     width: 100%;
+    max-width: 100%;
   }
 }
 
